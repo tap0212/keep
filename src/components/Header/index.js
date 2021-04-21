@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, fonts } from '../../themes/index';
 import { areEqual } from '../../utils';
-import { menuOptions } from '../../utils/constants';
 
 const Wrapper = styled.div`
   height: 3rem;
@@ -29,6 +28,7 @@ const HamburgerCover = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  z-index: 2;
   &:hover {
     background-color: ${colors.off1};
   }
@@ -76,16 +76,16 @@ const SearchAndInputCover = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-function Header({ selectTab }) {
+function Header({ currentRouteDetails, toggleSideBar }) {
   return (
     <Wrapper>
-      <HamburgerCover>
+      <HamburgerCover onClick={toggleSideBar}>
         <HamburgerLine />
         <HamburgerLine />
         <HamburgerLine />
       </HamburgerCover>
       <SearchAndInputCover>
-        <SelectedTab>{menuOptions[selectTab].title}</SelectedTab>
+        <SelectedTab>{currentRouteDetails.props.title}</SelectedTab>
         <InputCover>
           <Input type="text" placeholder="Search" />
           <Cross>X</Cross>
@@ -96,7 +96,8 @@ function Header({ selectTab }) {
 }
 
 Header.propTypes = {
-  selectTab: PropTypes.number.isRequired
+  currentRouteDetails: PropTypes.object.isRequired,
+  toggleSideBar: PropTypes.func.isRequired
 };
 
 export default memo(Header, areEqual);

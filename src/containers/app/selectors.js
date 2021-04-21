@@ -6,8 +6,7 @@ import { initialState } from './reducer';
  * Direct selector to the App state domain
  */
 
-const selectAppContainerDomain = (state) =>
-  state.App || initialState;
+const selectAppContainerDomain = (state) => state.App || initialState;
 
 /**
  * Other specific selectors
@@ -18,19 +17,11 @@ const selectAppContainerDomain = (state) =>
  */
 
 export const selectHomeContainer = () =>
-  createSelector(
-    selectAppContainerDomain,
-    (substate) => substate
-  );
+  createSelector(selectAppContainerDomain, (substate) => substate);
 
 export const selectIsSidebarActive = () =>
   createSelector(selectAppContainerDomain, (substate) =>
     get(substate, 'isSidebarActive', false)
-  );
-
-export const selectMenuOption = () =>
-  createSelector(selectAppContainerDomain, (substate) =>
-    get(substate, 'selectedMenuOption', 0)
   );
 
 export default selectHomeContainer;

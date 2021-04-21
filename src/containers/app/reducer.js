@@ -6,28 +6,19 @@
 import produce from 'immer';
 import { createActions } from 'reduxsauce';
 export const initialState = {
-  isSidebarActive: false,
-  menuOption: 0
+  isSidebarActive: false
 };
 
 export const { Types: appTypes, Creators: appCreators } = createActions({
-  activateSidebar: [],
-  deactivateSidebar: [],
-  selectMenuOption: ['menuIndex']
+  setSidebar: ['bool']
 });
 
 /* eslint-disable default-case, no-param-reassign */
 export const keeperReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
-      case appTypes.ACTIVATE_SIDEBAR:
-        draft.isSidebarActive = true;
-        break;
-      case appTypes.DEACTIVATE_SIDEBAR:
-        draft.isSidebarActive = false;
-        break;
-      case appTypes.SELECT_MENU_OPTION:
-        draft.selectedMenuOption = action.menuIndex;
+      case appTypes.SET_SIDEBAR:
+        draft.isSidebarActive = action.bool;
         break;
       default:
         return state;
