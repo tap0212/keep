@@ -68,7 +68,9 @@ const subText = () => css`
   ${small()}
   ${normal()}
 `;
-
+const fontWeight = (weight) => css`
+  font-weight: weight;
+`;
 export default {
   dynamicFontSize,
   size: {
@@ -88,6 +90,7 @@ export default {
   weights: {
     light,
     bold,
-    normal
+    normal,
+    fontWeight
   }
 };
