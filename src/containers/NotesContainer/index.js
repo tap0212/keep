@@ -110,6 +110,7 @@ export function NotesContainer({
             note={selectedNote}
           />
           <Overlay
+            color={colors.backDrop}
             close={() => {
               dispatchSetSelectedNote(null);
             }}

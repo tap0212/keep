@@ -14,17 +14,19 @@ const Wrapper = styled.div`
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: #202124;
+
   opacity: 0.6;
   transition: opacity 0.218s ease-in;
   z-index: ${indexes.MID_UPPER};
+  ${(props) => props.color && `background-color: ${props.color};`}
 `;
-function Overlay({ close }) {
-  return <Wrapper onClick={close} />;
+function Overlay({ close, color }) {
+  return <Wrapper color={color} onClick={close} />;
 }
 
 Overlay.propTypes = {
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  color: PropTypes.string.isRequired
 };
 
 export default memo(Overlay);
