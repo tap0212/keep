@@ -49,14 +49,17 @@ const NotesWrapper = styled.div`
   `)}
 `;
 
-export function NotesContainer({ dispatchAddNote, notes, dispatchDeleteNote }) {
+export function NotesContainer({
+  dispatchAddNote,
+  notes,
+  dispatchDeleteNote,
+  dispatchArchiveNote
+}) {
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleCard = () => {
     setIsExpanded(!isExpanded);
   };
-  const handleDeleteNote = (noteId) => {
-    dispatchDeleteNote(notes.filter((note) => note.id !== noteId));
-  };
+
   return (
     <Wrapper>
       {isExpanded ? (
@@ -65,18 +68,23 @@ export function NotesContainer({ dispatchAddNote, notes, dispatchDeleteNote }) {
         <AddNoteTile setIsExpanded={setIsExpanded} />
       )}
 
-      {!isExpanded && !notes.length && (
+      {!isExpanded && !notes && (
         <NoNotesWrapper>
           <BulbIcon src={OutlineBulbImg} />
           <StyledDefaultText>Notes you add appear here.</StyledDefaultText>
         </NoNotesWrapper>
       )}
       <NotesWrapper>
-        {notes.length &&
-          notes.map(
+        {notes &&
+          Object.values(notes).map(
             (note, i) =>
               !note.isArchived && (
-                <NoteCard deleteNote={handleDeleteNote} key={i} note={note} />
+                <NoteCard
+                  archiveNote={dispatchArchiveNote}
+                  deleteNote={dispatchDeleteNote}
+                  key={i}
+                  note={note}
+                />
               )
           )}
       </NotesWrapper>
@@ -86,8 +94,9 @@ export function NotesContainer({ dispatchAddNote, notes, dispatchDeleteNote }) {
 
 NotesContainer.propTypes = {
   dispatchAddNote: PropTypes.func,
-  notes: PropTypes.array,
-  dispatchDeleteNote: PropTypes.func
+  notes: PropTypes.object,
+  dispatchDeleteNote: PropTypes.func,
+  dispatchArchiveNote: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -98,7 +107,8 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatchAddNote: (note) => dispatch(appCreators.addNote(note)),
-    dispatchDeleteNote: (noteId) => dispatch(appCreators.deleteNote(noteId))
+    dispatchDeleteNote: (noteId) => dispatch(appCreators.deleteNote(noteId)),
+    dispatchArchiveNote: (noteId) => dispatch(appCreators.archiveNote(noteId))
   };
 }
 

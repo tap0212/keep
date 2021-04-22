@@ -15,7 +15,7 @@ const makeSelectNotesContainer = () =>
   createSelector(selectNotesContainerDomain, (substate) => substate);
 
 export const selectNotes = () =>
-  createSelector(selectAppDomain, (substate) => get(substate, 'notes', false));
+  createSelector(selectAppDomain, (substate) => get(substate, 'notes', null));
 
 export default makeSelectNotesContainer;
 export { selectNotesContainerDomain };

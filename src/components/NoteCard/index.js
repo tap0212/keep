@@ -59,7 +59,7 @@ const ToolRow = styled.div`
 const Row = styled.div`
   ${styles.configureFlex('row', 'space-between', 'flex-start')}
 `;
-function NoteCard({ note, deleteNote }) {
+function NoteCard({ note, deleteNote, archiveNote }) {
   return (
     <Wrapper>
       <Row>
@@ -73,7 +73,12 @@ function NoteCard({ note, deleteNote }) {
       </Row>
       <Description>{note.note}</Description>
       <ToolRow>
-        <ArchiveIcon src={ArchiveSvg} />
+        <ArchiveIcon
+          onClick={() => {
+            archiveNote(note.id);
+          }}
+          src={ArchiveSvg}
+        />
       </ToolRow>
     </Wrapper>
   );
@@ -81,7 +86,8 @@ function NoteCard({ note, deleteNote }) {
 
 NoteCard.propTypes = {
   note: PropTypes.object.isRequired,
-  deleteNote: PropTypes.func.isRequired
+  deleteNote: PropTypes.func.isRequired,
+  archiveNote: PropTypes.func.isRequired
 };
 
 export default memo(NoteCard);
