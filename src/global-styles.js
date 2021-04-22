@@ -24,6 +24,9 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100%;
     min-width: 100%;
   }
+  .textarea[contenteditable]:empty::before {
+  content: "Title";
+}
   p,
   h1,
   h2,

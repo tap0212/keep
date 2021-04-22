@@ -6,12 +6,24 @@ const dynamicFontSize = (font, desktopDelta = 0, tabletDelta = 0) => css`
   ${font()}
   ${media.tablet.min(
     `font-size: ${
-      tabletDelta + parseInt(font()[0].replace('font-size:', '').replace('rem;', '').replace(/\s+/g, ''))
+      tabletDelta +
+      parseInt(
+        font()[0]
+          .replace('font-size:', '')
+          .replace('rem;', '')
+          .replace(/\s+/g, '')
+      )
     }rem;`
   )};
   ${media.desktop.min(
     `font-size: ${
-      desktopDelta + parseInt(font()[0].replace('font-size:', '').replace('rem;', '').replace(/\s+/g, ''))
+      desktopDelta +
+      parseInt(
+        font()[0]
+          .replace('font-size:', '')
+          .replace('rem;', '')
+          .replace(/\s+/g, '')
+      )
     }rem;`
   )};
 `;

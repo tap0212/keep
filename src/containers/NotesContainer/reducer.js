@@ -4,7 +4,6 @@
  *
  */
 import produce from 'immer';
-import { fromJS } from 'immutable';
 import { createActions } from 'reduxsauce';
 
 export const initialState = {};

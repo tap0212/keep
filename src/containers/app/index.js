@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 const App = ({ isSidebarActive, location }) => {
   const currentRouteDetails = getCurrentRouteDetails(location);
   const toggleSideBar = () => {
-    console.log('toggleSideBar');
+    //
   };
   return (
     <>

@@ -18,6 +18,11 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: -webkit-sticky;
+  position: sticky;
+  top: -1px;
+  background-color: white;
+  z-index: 10;
 `;
 const HamburgerCover = styled.div`
   border-radius: 50%;
