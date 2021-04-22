@@ -4,11 +4,10 @@
  *
  */
 
-import React, { memo, useMemo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, fonts } from '../../themes/index';
-import { areEqual } from '../../utils';
 
 const Wrapper = styled.div`
   height: 3rem;
@@ -105,4 +104,4 @@ Header.propTypes = {
   toggleSideBar: PropTypes.func.isRequired
 };
 
-export default memo(Header, areEqual);
+export default memo(Header);

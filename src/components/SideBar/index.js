@@ -8,7 +8,6 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors } from '../../themes';
-import { areEqual } from '../../utils';
 import { useHistory } from 'react-router';
 import routeConstants from '../../routeConstants';
 
@@ -62,4 +61,4 @@ SideBar.propTypes = {
   currentRouteDetails: PropTypes.object.isRequired
 };
 
-export default memo(SideBar, areEqual);
+export default memo(SideBar);
