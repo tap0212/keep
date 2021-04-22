@@ -8,7 +8,6 @@ import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import remove from 'lodash/remove';
 
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -19,6 +18,7 @@ import OutlineBulbImg from '../../Images/bulb-outlined.svg';
 import AddNoteCard from '../../components/AddNoteCard';
 import NoteCard from '../../components/NoteCard';
 import { appCreators } from '../app/reducer';
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: flex-start;

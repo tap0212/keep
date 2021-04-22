@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { colors, fonts, styles } from '../../themes';
 import DeleteSvg from '../../Images/delete.svg';
 import ArchiveSvg from '../../Images/archive.svg';
+import unArchiveSvg from '../../Images/unArchive.svg';
 
 const DeleteIcon = styled.img`
   width: 1.25rem;
@@ -77,7 +78,7 @@ function NoteCard({ note, deleteNote, archiveNote }) {
           onClick={() => {
             archiveNote(note.id);
           }}
-          src={ArchiveSvg}
+          src={note.isArchived ? unArchiveSvg : ArchiveSvg}
         />
       </ToolRow>
     </Wrapper>
