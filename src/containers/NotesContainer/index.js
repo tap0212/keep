@@ -90,6 +90,7 @@ export function NotesContainer({
             (note, i) =>
               !note.isArchived && (
                 <NoteCard
+                  updateNote={dispatchUpdateNote}
                   selectNote={dispatchSetSelectedNote}
                   archiveNote={dispatchArchiveNote}
                   deleteNote={dispatchDeleteNote}

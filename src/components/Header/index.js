@@ -4,12 +4,13 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, fonts } from '../../themes/index';
 import { indexes } from '../../themes/zIndex';
-
+import debounce from 'lodash/debounce';
+import CrossIcon from '../../Images/cross.png';
 const Wrapper = styled.div`
   height: 3rem;
   padding: 1rem;
@@ -66,8 +67,9 @@ const Input = styled.input`
     outline: none;
   }
 `;
-const Cross = styled.p`
+const Cross = styled.img`
   cursor: pointer;
+  width: 2rem;
   border-radius: 50%;
   padding: 0.25rem;
   &:hover {
@@ -81,7 +83,13 @@ const SearchAndInputCover = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-function Header({ currentRouteDetails, toggleSideBar }) {
+function Header({ currentRouteDetails, toggleSideBar, search }) {
+  const debouncedSearch = debounce(search, 200);
+  const searchInputEl = useRef(null);
+  const cancelSearch = () => {
+    search('');
+    searchInputEl.current.value = '';
+  };
   return (
     <Wrapper>
       <HamburgerCover onClick={toggleSideBar}>
@@ -92,8 +100,15 @@ function Header({ currentRouteDetails, toggleSideBar }) {
       <SearchAndInputCover>
         <SelectedTab>{currentRouteDetails.props.title}</SelectedTab>
         <InputCover>
-          <Input type="text" placeholder="Search" />
-          <Cross>X</Cross>
+          <Input
+            ref={searchInputEl}
+            onChange={(e) => {
+              debouncedSearch(e.target.value);
+            }}
+            type="text"
+            placeholder="Search"
+          />
+          <Cross src={CrossIcon} onClick={cancelSearch} />
         </InputCover>
       </SearchAndInputCover>
     </Wrapper>
@@ -102,7 +117,8 @@ function Header({ currentRouteDetails, toggleSideBar }) {
 
 Header.propTypes = {
   currentRouteDetails: PropTypes.object.isRequired,
-  toggleSideBar: PropTypes.func.isRequired
+  toggleSideBar: PropTypes.func.isRequired,
+  search: PropTypes.func.isRequired
 };
 
 export default memo(Header);

@@ -81,7 +81,9 @@ function NoteCard({ note, deleteNote, archiveNote, selectNote, updateNote }) {
               key: 'isPinned',
               value: true
             });
-            archiveNote(note.id);
+            if (note.isArchived) {
+              archiveNote(note.id);
+            }
           }}
           src={PinIcon}
         />

@@ -16,24 +16,32 @@ import styled from 'styled-components';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-
 import Header from '../../components/Header';
 import GlobalStyle from '../../global-styles';
 import SideBar from '../../components/SideBar';
-import { selectIsSidebarActive } from './selectors';
+import { selectIsSidebarActive, selectNotes } from './selectors';
 import { appCreators } from './reducer';
-import { getCurrentRouteDetails } from '../../utils';
+import { getCurrentRouteDetails, trieSearch } from '../../utils';
 const Wrapper = styled.div`
   padding-left: 6rem;
 `;
-const App = ({ isSidebarActive, location }) => {
+const App = ({ isSidebarActive, location, notes, dispatchSetSearchResult }) => {
   const currentRouteDetails = getCurrentRouteDetails(location);
   const toggleSideBar = () => {
     //
   };
+  const handleSearch = (searchQuery) => {
+    const searchResp = trieSearch(
+      Object.values(notes),
+      ['note', 'title'],
+      searchQuery
+    );
+    dispatchSetSearchResult(searchResp);
+  };
   return (
     <>
       <Header
+        search={handleSearch}
         toggleSideBar={toggleSideBar}
         currentRouteDetails={currentRouteDetails}
       />
@@ -71,14 +79,17 @@ const App = ({ isSidebarActive, location }) => {
 
 App.propTypes = {
   isSidebarActive: PropTypes.bool,
-  location: PropTypes.object
+  location: PropTypes.object,
+  notes: PropTypes.func,
+  dispatchSetSearchResult: PropTypes.func
 };
 const mapStateToProps = createStructuredSelector({
-  isSidebarActive: selectIsSidebarActive()
+  isSidebarActive: selectIsSidebarActive(),
+  notes: selectNotes()
 });
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatchSetSearchResult: (data) => dispatch(appCreators.searchResult(data))
   };
 }
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

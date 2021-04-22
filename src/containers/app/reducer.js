@@ -7,7 +7,8 @@ import produce from 'immer';
 import { createActions } from 'reduxsauce';
 export const initialState = {
   isSidebarActive: false,
-  notes: {}
+  notes: {},
+  searchResults: []
 };
 
 export const { Types: appTypes, Creators: appCreators } = createActions({
@@ -16,7 +17,8 @@ export const { Types: appTypes, Creators: appCreators } = createActions({
   deleteNote: ['noteId'],
   archiveNote: ['noteId'],
   unArchiveNote: ['noteId'],
-  updateNote: ['data']
+  updateNote: ['data'],
+  searchResult: ['data']
 });
 
 /* eslint-disable default-case, no-param-reassign */
@@ -47,6 +49,9 @@ export const keeperReducer = (state = initialState, action) =>
         break;
       case appTypes.UPDATE_NOTE:
         draft.notes[action.data.id][action.data.key] = action.data.value;
+        break;
+      case appTypes.SEARCH_RESULT:
+        draft.searchResults = action.data;
         break;
       default:
         return state;

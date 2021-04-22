@@ -24,4 +24,8 @@ export const selectIsSidebarActive = () =>
     get(substate, 'isSidebarActive', false)
   );
 
+export const selectNotes = () =>
+  createSelector(selectAppContainerDomain, (substate) =>
+    get(substate, 'notes', null)
+  );
 export default selectHomeContainer;
