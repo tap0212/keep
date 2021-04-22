@@ -10,10 +10,11 @@ import styled from 'styled-components';
 import { colors } from '../../themes';
 import { useHistory } from 'react-router';
 import routeConstants from '../../routeConstants';
+import { indexes } from '../../themes/zIndex';
 
 const Wrapper = styled.div`
   position: fixed;
-  z-index: 1;
+  z-index: ${indexes.LOWEST};
   top: 0;
   left: 0;
   overflow-x: hidden;

@@ -8,6 +8,7 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, fonts } from '../../themes/index';
+import { indexes } from '../../themes/zIndex';
 
 const Wrapper = styled.div`
   height: 3rem;
@@ -21,7 +22,7 @@ const Wrapper = styled.div`
   position: sticky;
   top: -1px;
   background-color: white;
-  z-index: 10;
+  z-index: ${indexes.MID};
 `;
 const HamburgerCover = styled.div`
   border-radius: 50%;
@@ -32,7 +33,7 @@ const HamburgerCover = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: 2;
+  z-index: ${indexes.LOW};
   &:hover {
     background-color: ${colors.off1};
   }

@@ -11,14 +11,17 @@ import { colors, fonts, styles } from '../../themes';
 import DeleteSvg from '../../Images/delete.svg';
 import ArchiveSvg from '../../Images/archive.svg';
 import unArchiveSvg from '../../Images/unArchive.svg';
+import PinIcon from '../../Images/pin.svg';
 
-const DeleteIcon = styled.img`
+const StyledIcon = styled.img`
   width: 1.25rem;
   display: none;
+  margin: 0 0.25rem;
 `;
 const ArchiveIcon = styled.img`
   width: 1.5rem;
   display: none;
+  margin: 0 0.25rem;
 `;
 const Wrapper = styled.div`
   border: 1px solid ${colors.off2};
@@ -34,7 +37,7 @@ const Wrapper = styled.div`
     border-width: 1px 1px 1px 1px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
   }
-  &:hover ${DeleteIcon} {
+  &:hover ${StyledIcon} {
     display: block;
   }
   &:hover ${ArchiveIcon} {
@@ -56,29 +59,42 @@ const ToolRow = styled.div`
   padding: 0.5rem;
   bottom: 0;
   left: 0;
+  display: flex;
 `;
 const Row = styled.div`
   ${styles.configureFlex('row', 'space-between', 'flex-start')}
 `;
-function NoteCard({ note, deleteNote, archiveNote }) {
+function NoteCard({ note, deleteNote, archiveNote, selectNote }) {
   return (
-    <Wrapper>
+    <Wrapper
+      onClick={() => {
+        selectNote(note);
+      }}
+    >
       <Row>
         <Title>{note.title}</Title>
-        <DeleteIcon
-          onClick={() => {
-            deleteNote(note.id);
+        <StyledIcon
+          onClick={(event) => {
+            event.stopPropagation();
           }}
-          src={DeleteSvg}
+          src={PinIcon}
         />
       </Row>
       <Description>{note.note}</Description>
       <ToolRow>
         <ArchiveIcon
-          onClick={() => {
+          onClick={(event) => {
+            event.stopPropagation();
             archiveNote(note.id);
           }}
           src={note.isArchived ? unArchiveSvg : ArchiveSvg}
+        />
+        <StyledIcon
+          onClick={(event) => {
+            event.stopPropagation();
+            deleteNote(note.id);
+          }}
+          src={DeleteSvg}
         />
       </ToolRow>
     </Wrapper>
@@ -88,7 +104,8 @@ function NoteCard({ note, deleteNote, archiveNote }) {
 NoteCard.propTypes = {
   note: PropTypes.object.isRequired,
   deleteNote: PropTypes.func.isRequired,
-  archiveNote: PropTypes.func.isRequired
+  archiveNote: PropTypes.func.isRequired,
+  selectNote: PropTypes.func.isRequired
 };
 
 export default memo(NoteCard);

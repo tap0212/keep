@@ -15,7 +15,8 @@ export const { Types: appTypes, Creators: appCreators } = createActions({
   addNote: ['note'],
   deleteNote: ['noteId'],
   archiveNote: ['noteId'],
-  unArchiveNote: ['noteId']
+  unArchiveNote: ['noteId'],
+  updateNote: ['data']
 });
 
 /* eslint-disable default-case, no-param-reassign */
@@ -43,6 +44,9 @@ export const keeperReducer = (state = initialState, action) =>
         break;
       case appTypes.UN_ARCHIVE_NOTE:
         draft.notes[action.noteId].isArchived = false;
+        break;
+      case appTypes.UPDATE_NOTE:
+        draft.notes[action.data.id][action.data.key] = action.data.value;
         break;
       default:
         return state;
