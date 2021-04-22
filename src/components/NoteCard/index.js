@@ -64,7 +64,7 @@ const ToolRow = styled.div`
 const Row = styled.div`
   ${styles.configureFlex('row', 'space-between', 'flex-start')}
 `;
-function NoteCard({ note, deleteNote, archiveNote, selectNote }) {
+function NoteCard({ note, deleteNote, archiveNote, selectNote, updateNote }) {
   return (
     <Wrapper
       onClick={() => {
@@ -76,6 +76,12 @@ function NoteCard({ note, deleteNote, archiveNote, selectNote }) {
         <StyledIcon
           onClick={(event) => {
             event.stopPropagation();
+            updateNote({
+              id: note.id,
+              key: 'isPinned',
+              value: true
+            });
+            archiveNote(note.id);
           }}
           src={PinIcon}
         />
@@ -105,7 +111,8 @@ NoteCard.propTypes = {
   note: PropTypes.object.isRequired,
   deleteNote: PropTypes.func.isRequired,
   archiveNote: PropTypes.func.isRequired,
-  selectNote: PropTypes.func.isRequired
+  selectNote: PropTypes.func.isRequired,
+  updateNote: PropTypes.func.isRequired
 };
 
 export default memo(NoteCard);

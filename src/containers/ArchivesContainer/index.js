@@ -32,7 +32,8 @@ const NotesWrapper = styled.div`
 export function ArchivesContainer({
   notes,
   dispatchDeleteNote,
-  dispatchUnArchiveNote
+  dispatchUnArchiveNote,
+  dispatchUpdateNote
 }) {
   return (
     <Wrapper>
@@ -42,6 +43,7 @@ export function ArchivesContainer({
             (note, i) =>
               note.isArchived && (
                 <NoteCard
+                  updateNote={dispatchUpdateNote}
                   archiveNote={dispatchUnArchiveNote}
                   deleteNote={dispatchDeleteNote}
                   key={i}
@@ -57,7 +59,8 @@ export function ArchivesContainer({
 ArchivesContainer.propTypes = {
   notes: PropTypes.object,
   dispatchDeleteNote: PropTypes.func,
-  dispatchUnArchiveNote: PropTypes.func
+  dispatchUnArchiveNote: PropTypes.func,
+  dispatchUpdateNote: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -69,7 +72,8 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatchDeleteNote: (noteId) => dispatch(appCreators.deleteNote(noteId)),
     dispatchUnArchiveNote: (noteId) =>
-      dispatch(appCreators.unArchiveNote(noteId))
+      dispatch(appCreators.unArchiveNote(noteId)),
+    dispatchUpdateNote: (note) => dispatch(appCreators.updateNote(note))
   };
 }
 
