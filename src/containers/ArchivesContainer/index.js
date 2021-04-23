@@ -31,6 +31,7 @@ const NotesWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 2rem 0;
+  width: 100%;
   ${media.largeMobile.max(`
     justify-content: center;
   `)}

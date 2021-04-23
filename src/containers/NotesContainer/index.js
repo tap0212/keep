@@ -31,6 +31,10 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  padding: 1rem;
+  ${media.largeMobile.max(`
+    padding: 0;
+  `)}
 `;
 
 const BulbIcon = styled.img`
@@ -51,9 +55,15 @@ const StyledDefaultText = styled.p`
 const NotesWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   ${media.largeMobile.max(`
     justify-content: center;
   `)}
+`;
+const SectionWrapper = styled.div`
+  width: 80%;
+  text-align: left;
+  margin-top: 2rem;
 `;
 
 export function NotesContainer({
@@ -64,16 +74,17 @@ export function NotesContainer({
   dispatchArchiveNote,
   dispatchSetSelectedNote,
   selectedNote,
-  dispatchUpdateNote
+  dispatchUpdateNote,
+  dispatchUnArchiveNote
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const [showArchive, setShowArchive] = useState(false);
   const toggleCard = () => {
     setIsExpanded(!isExpanded);
   };
   return (
     <Wrapper>
-      {!searchResults.searchResp.length && (
+      {!searchResults.searchQuery && (
         <>
           {isExpanded ? (
             <AddNoteCard addNote={dispatchAddNote} toggleCard={toggleCard} />
@@ -90,20 +101,78 @@ export function NotesContainer({
         </NoNotesWrapper>
       )}
       <NotesWrapper>
-        {notes &&
-          Object.values(notes).map(
-            (note, i) =>
-              !note.isArchived && (
-                <NoteCard
-                  updateNote={dispatchUpdateNote}
-                  selectNote={dispatchSetSelectedNote}
-                  archiveNote={dispatchArchiveNote}
-                  deleteNote={dispatchDeleteNote}
-                  key={i}
-                  note={note}
-                />
-              )
-          )}
+        {!searchResults.searchQuery ? (
+          <>
+            {notes &&
+              Object.values(notes).map(
+                (note, i) =>
+                  !note.isArchived && (
+                    <NoteCard
+                      updateNote={dispatchUpdateNote}
+                      selectNote={dispatchSetSelectedNote}
+                      archiveNote={dispatchArchiveNote}
+                      deleteNote={dispatchDeleteNote}
+                      key={i}
+                      note={note}
+                    />
+                  )
+              )}
+          </>
+        ) : (
+          <>
+            {!!searchResults.searchResp.length && (
+              <Wrapper>
+                <NotesWrapper>
+                  {searchResults.searchResp
+                    .filter((note) => !note.isArchived)
+                    .map((note, i) => (
+                      <NoteCard
+                        updateNote={dispatchUpdateNote}
+                        selectNote={dispatchSetSelectedNote}
+                        archiveNote={dispatchArchiveNote}
+                        deleteNote={dispatchDeleteNote}
+                        key={i}
+                        note={note}
+                      />
+                    ))}
+                </NotesWrapper>
+                <SectionWrapper>
+                  {showArchive && (
+                    <p
+                      style={{
+                        fontSize: '0.9rem',
+                        color: colors.off3,
+                        fontWeight: '500'
+                      }}
+                    >
+                      Archive
+                    </p>
+                  )}
+                </SectionWrapper>
+
+                <NotesWrapper>
+                  {searchResults.searchResp
+                    .filter((note) => note.isArchived)
+                    .map((note, i) => {
+                      if (!showArchive) {
+                        setShowArchive(true);
+                      }
+                      return (
+                        <NoteCard
+                          updateNote={dispatchUpdateNote}
+                          selectNote={dispatchSetSelectedNote}
+                          archiveNote={dispatchUnArchiveNote}
+                          deleteNote={dispatchDeleteNote}
+                          key={i}
+                          note={note}
+                        />
+                      );
+                    })}
+                </NotesWrapper>
+              </Wrapper>
+            )}
+          </>
+        )}
       </NotesWrapper>
       {selectedNote && (
         <>
@@ -135,7 +204,8 @@ NotesContainer.propTypes = {
   dispatchSetSelectedNote: PropTypes.func,
   selectedNote: PropTypes.object,
   dispatchUpdateNote: PropTypes.func,
-  searchResults: PropTypes.object
+  searchResults: PropTypes.object,
+  dispatchUnArchiveNote: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -152,7 +222,9 @@ function mapDispatchToProps(dispatch) {
     dispatchArchiveNote: (noteId) => dispatch(appCreators.archiveNote(noteId)),
     dispatchSetSelectedNote: (note) =>
       dispatch(notesContainerCreators.setOpenedNote(note)),
-    dispatchUpdateNote: (note) => dispatch(appCreators.updateNote(note))
+    dispatchUpdateNote: (note) => dispatch(appCreators.updateNote(note)),
+    dispatchUnArchiveNote: (noteId) =>
+      dispatch(appCreators.unArchiveNote(noteId))
   };
 }
 

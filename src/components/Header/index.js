@@ -79,6 +79,7 @@ const Cross = styled.img`
 const SearchAndInputCover = styled.div`
   width: 90%;
   padding: 1rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -111,7 +112,7 @@ function Header({ currentRouteDetails, toggleSideBar, search, searchQuery }) {
             type="text"
             placeholder="Search"
           />
-          <Cross src={CrossIcon} onClick={cancelSearch} />
+          {searchQuery && <Cross src={CrossIcon} onClick={cancelSearch} />}
         </InputCover>
       </SearchAndInputCover>
     </Wrapper>
