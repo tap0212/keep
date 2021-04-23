@@ -79,7 +79,6 @@ export function NotesContainer({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showArchive, setShowArchive] = useState(false);
-
   const toggleCard = () => {
     setIsExpanded(!isExpanded);
   };
@@ -95,7 +94,7 @@ export function NotesContainer({
         </>
       )}
 
-      {!isExpanded && !notes && (
+      {!isExpanded && !Object.keys(notes).length && (
         <NoNotesWrapper>
           <BulbIcon src={OutlineBulbImg} />
           <StyledDefaultText>Notes you add appear here.</StyledDefaultText>
