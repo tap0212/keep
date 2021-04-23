@@ -27,33 +27,35 @@ import {
 import { appCreators } from './reducer';
 import { getCurrentRouteDetails, trieSearch } from '../../utils';
 const Wrapper = styled.div`
-  padding-left: 6rem;
+  ${(props) => props.paddingLeft && `padding-left: ${props.paddingLeft}rem;`}
+  transition: padding-left 0.5s ease;
 `;
 const App = ({
   isSidebarActive,
   location,
   notes,
   searchedQuery,
-  dispatchSetSearchResult
+  dispatchSetSearchResult,
+  dispatchToggleSideBar
 }) => {
   const currentRouteDetails = getCurrentRouteDetails(location);
-  const toggleSideBar = () => {
-    //
-  };
+
   const handleSearch = (searchQuery) => {
     const searchResp =
       trieSearch(Object.values(notes), ['note', 'title'], searchQuery) ?? [];
     dispatchSetSearchResult({ searchResp, searchQuery });
   };
+  const sidebarRange = [5, 15];
   return (
     <>
       <Header
         searchQuery={searchedQuery}
         search={handleSearch}
-        toggleSideBar={toggleSideBar}
+        toggleSideBar={dispatchToggleSideBar}
         currentRouteDetails={currentRouteDetails}
       />
       <SideBar
+        sidebarRange={sidebarRange}
         isSidebarActive={isSidebarActive}
         currentRouteDetails={currentRouteDetails?.props}
       />
@@ -71,7 +73,11 @@ const App = ({
                   ...routeConfig[routeKey].props
                 };
                 return (
-                  <Wrapper>
+                  <Wrapper
+                    paddingLeft={
+                      isSidebarActive ? sidebarRange[1] : sidebarRange[0]
+                    }
+                  >
                     <Component {...updatedProps} />
                   </Wrapper>
                 );
@@ -90,7 +96,8 @@ App.propTypes = {
   location: PropTypes.object,
   notes: PropTypes.object,
   dispatchSetSearchResult: PropTypes.func,
-  searchedQuery: PropTypes.string
+  searchedQuery: PropTypes.string,
+  dispatchToggleSideBar: PropTypes.func
 };
 const mapStateToProps = createStructuredSelector({
   isSidebarActive: selectIsSidebarActive(),
@@ -99,7 +106,8 @@ const mapStateToProps = createStructuredSelector({
 });
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchSetSearchResult: (data) => dispatch(appCreators.searchResult(data))
+    dispatchSetSearchResult: (data) => dispatch(appCreators.searchResult(data)),
+    dispatchToggleSideBar: () => dispatch(appCreators.toggleSidebar())
   };
 }
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

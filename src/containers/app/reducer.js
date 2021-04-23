@@ -18,7 +18,8 @@ export const { Types: appTypes, Creators: appCreators } = createActions({
   archiveNote: ['noteId'],
   unArchiveNote: ['noteId'],
   updateNote: ['data'],
-  searchResult: ['data']
+  searchResult: ['data'],
+  toggleSidebar: []
 });
 
 /* eslint-disable default-case, no-param-reassign */
@@ -52,6 +53,9 @@ export const keeperReducer = (state = initialState, action) =>
         break;
       case appTypes.SEARCH_RESULT:
         draft.searchResults = action.data;
+        break;
+      case appTypes.TOGGLE_SIDEBAR:
+        draft.isSidebarActive = !state.isSidebarActive;
         break;
       default:
         return state;
