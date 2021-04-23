@@ -9,7 +9,7 @@ import App from './containers/app/';
 import ErrorBoundary from './components/ErrorBoundary';
 
 import configureStore from './configureStore';
-// import '!file-loader?name=[name].[ext]!./images/favicon.ico';
+import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 
 // Create redux store with history
 const initialState = {};
