@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useRef } from 'react';
+import React, { memo, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { colors, fonts } from '../../themes/index';
@@ -83,9 +83,12 @@ const SearchAndInputCover = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-function Header({ currentRouteDetails, toggleSideBar, search }) {
+function Header({ currentRouteDetails, toggleSideBar, search, searchQuery }) {
   const debouncedSearch = debounce(search, 200);
   const searchInputEl = useRef(null);
+  useEffect(() => {
+    searchInputEl.current.value = searchQuery;
+  }, [searchQuery]);
   const cancelSearch = () => {
     search('');
     searchInputEl.current.value = '';
@@ -118,7 +121,8 @@ function Header({ currentRouteDetails, toggleSideBar, search }) {
 Header.propTypes = {
   currentRouteDetails: PropTypes.object.isRequired,
   toggleSideBar: PropTypes.func.isRequired,
-  search: PropTypes.func.isRequired
+  search: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired
 };
 
 export default memo(Header);

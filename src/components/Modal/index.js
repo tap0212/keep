@@ -12,6 +12,7 @@ import { colors, fonts, media, styles } from '../../themes';
 import { indexes } from '../../themes/zIndex';
 import PinIcon from '../../Images/pin.svg';
 import ArchiveIcon from '../../Images/archive.svg';
+import UnArchiveSvg from '../../Images/unArchive.svg';
 
 const Wrapper = styled.div`
   width: 40%;
@@ -133,7 +134,7 @@ function Modal({ note, close, archiveNote, update }) {
             archiveNote(note.id);
             close();
           }}
-          src={ArchiveIcon}
+          src={note.isArchived ? UnArchiveSvg : ArchiveIcon}
         />
         <CloseBtn
           onClick={() => {

@@ -21,5 +21,9 @@ export const selectSelectedNote = () =>
   createSelector(selectNotesContainerDomain, (substate) =>
     get(substate, 'openedNote', null)
   );
+export const selectSearchedNotes = () =>
+  createSelector(selectAppDomain, (substate) =>
+    get(substate, 'searchResults', {})
+  );
 export default makeSelectNotesContainer;
 export { selectNotesContainerDomain };

@@ -12,15 +12,15 @@ export const {
   Types: archivesContainerTypes,
   Creators: archivesContainerCreators
 } = createActions({
-  defaultAction: ['somePayload']
+  setOpenedNote: ['note']
 });
 
 /* eslint-disable default-case, no-param-reassign */
 export const archivesContainerReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
-      case archivesContainerTypes.DEFAULT_ACTION:
-        draft.somePayload = action.somePayload;
+      case archivesContainerTypes.SET_OPENED_NOTE:
+        draft.openedNote = action.note;
         break;
       default:
         return state;

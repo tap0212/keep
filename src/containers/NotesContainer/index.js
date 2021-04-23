@@ -13,7 +13,8 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import makeSelectNotesContainer, {
   selectNotes,
-  selectSelectedNote
+  selectSelectedNote,
+  selectSearchedNotes
 } from './selectors';
 import { colors, fonts, media } from '../../themes';
 import AddNoteTile from '../../components/AddNoteTile';
@@ -58,6 +59,7 @@ const NotesWrapper = styled.div`
 export function NotesContainer({
   dispatchAddNote,
   notes,
+  searchResults,
   dispatchDeleteNote,
   dispatchArchiveNote,
   dispatchSetSelectedNote,
@@ -69,13 +71,16 @@ export function NotesContainer({
   const toggleCard = () => {
     setIsExpanded(!isExpanded);
   };
-
   return (
     <Wrapper>
-      {isExpanded ? (
-        <AddNoteCard addNote={dispatchAddNote} toggleCard={toggleCard} />
-      ) : (
-        <AddNoteTile setIsExpanded={setIsExpanded} />
+      {!searchResults.searchResp.length && (
+        <>
+          {isExpanded ? (
+            <AddNoteCard addNote={dispatchAddNote} toggleCard={toggleCard} />
+          ) : (
+            <AddNoteTile setIsExpanded={setIsExpanded} />
+          )}
+        </>
       )}
 
       {!isExpanded && !notes && (
@@ -129,13 +134,15 @@ NotesContainer.propTypes = {
   dispatchArchiveNote: PropTypes.func,
   dispatchSetSelectedNote: PropTypes.func,
   selectedNote: PropTypes.object,
-  dispatchUpdateNote: PropTypes.func
+  dispatchUpdateNote: PropTypes.func,
+  searchResults: PropTypes.object
 };
 
 const mapStateToProps = createStructuredSelector({
   notesContainer: makeSelectNotesContainer(),
   notes: selectNotes(),
-  selectedNote: selectSelectedNote()
+  selectedNote: selectSelectedNote(),
+  searchResults: selectSearchedNotes()
 });
 
 function mapDispatchToProps(dispatch) {

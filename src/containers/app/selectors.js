@@ -28,4 +28,8 @@ export const selectNotes = () =>
   createSelector(selectAppContainerDomain, (substate) =>
     get(substate, 'notes', null)
   );
+export const selectSearchQuery = () =>
+  createSelector(selectAppContainerDomain, (substate) =>
+    get(substate, 'searchResults.searchQuery', '')
+  );
 export default selectHomeContainer;

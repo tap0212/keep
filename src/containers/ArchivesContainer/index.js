@@ -10,10 +10,16 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import makeSelectArchivesContainer, { selectNotes } from './selectors';
+import makeSelectArchivesContainer, {
+  selectNotes,
+  selectSelectedNote
+} from './selectors';
 import NoteCard from '../../components/NoteCard';
-import { media } from '../../themes';
+import { colors, media } from '../../themes';
 import { appCreators } from '../app/reducer';
+import { archivesContainerCreators } from './reducer';
+import Modal from '../../components/Modal';
+import Overlay from '../../components/Overlay';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,9 +37,11 @@ const NotesWrapper = styled.div`
 `;
 export function ArchivesContainer({
   notes,
+  selectedNote,
   dispatchDeleteNote,
   dispatchUnArchiveNote,
-  dispatchUpdateNote
+  dispatchUpdateNote,
+  dispatchSetSelectedNote
 }) {
   return (
     <Wrapper>
@@ -43,6 +51,7 @@ export function ArchivesContainer({
             (note, i) =>
               note.isArchived && (
                 <NoteCard
+                  selectNote={dispatchSetSelectedNote}
                   updateNote={dispatchUpdateNote}
                   archiveNote={dispatchUnArchiveNote}
                   deleteNote={dispatchDeleteNote}
@@ -52,6 +61,24 @@ export function ArchivesContainer({
               )
           )}
       </NotesWrapper>
+      {selectedNote && (
+        <>
+          <Modal
+            update={dispatchUpdateNote}
+            archiveNote={dispatchUnArchiveNote}
+            close={() => {
+              dispatchSetSelectedNote(null);
+            }}
+            note={selectedNote}
+          />
+          <Overlay
+            color={colors.backDrop}
+            close={() => {
+              dispatchSetSelectedNote(null);
+            }}
+          />
+        </>
+      )}
     </Wrapper>
   );
 }
@@ -60,12 +87,15 @@ ArchivesContainer.propTypes = {
   notes: PropTypes.object,
   dispatchDeleteNote: PropTypes.func,
   dispatchUnArchiveNote: PropTypes.func,
-  dispatchUpdateNote: PropTypes.func
+  dispatchUpdateNote: PropTypes.func,
+  dispatchSetSelectedNote: PropTypes.func,
+  selectedNote: PropTypes.object
 };
 
 const mapStateToProps = createStructuredSelector({
   archivesContainer: makeSelectArchivesContainer(),
-  notes: selectNotes()
+  notes: selectNotes(),
+  selectedNote: selectSelectedNote()
 });
 
 function mapDispatchToProps(dispatch) {
@@ -73,7 +103,9 @@ function mapDispatchToProps(dispatch) {
     dispatchDeleteNote: (noteId) => dispatch(appCreators.deleteNote(noteId)),
     dispatchUnArchiveNote: (noteId) =>
       dispatch(appCreators.unArchiveNote(noteId)),
-    dispatchUpdateNote: (note) => dispatch(appCreators.updateNote(note))
+    dispatchUpdateNote: (note) => dispatch(appCreators.updateNote(note)),
+    dispatchSetSelectedNote: (note) =>
+      dispatch(archivesContainerCreators.setOpenedNote(note))
   };
 }
 
