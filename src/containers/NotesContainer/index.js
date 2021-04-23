@@ -63,7 +63,7 @@ const NotesWrapper = styled.div`
 const SectionWrapper = styled.div`
   width: 80%;
   text-align: left;
-  margin-top: 2rem;
+  ${(props) => props.marginTop && `margin-top: ${props.marginTop}rem;`}
 `;
 
 export function NotesContainer({
@@ -79,6 +79,7 @@ export function NotesContainer({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showArchive, setShowArchive] = useState(false);
+
   const toggleCard = () => {
     setIsExpanded(!isExpanded);
   };
@@ -103,20 +104,41 @@ export function NotesContainer({
       <NotesWrapper>
         {!searchResults.searchQuery ? (
           <>
-            {notes &&
-              Object.values(notes).map(
-                (note, i) =>
-                  !note.isArchived && (
-                    <NoteCard
-                      updateNote={dispatchUpdateNote}
-                      selectNote={dispatchSetSelectedNote}
-                      archiveNote={dispatchArchiveNote}
-                      deleteNote={dispatchDeleteNote}
-                      key={i}
-                      note={note}
-                    />
-                  )
-              )}
+            {notes && (
+              <Wrapper>
+                <NotesWrapper>
+                  {Object.values(notes)
+                    .filter((note) => !note.isArchived && note.isPinned)
+                    .map((note, i) => {
+                      return (
+                        <NoteCard
+                          updateNote={dispatchUpdateNote}
+                          selectNote={dispatchSetSelectedNote}
+                          archiveNote={dispatchArchiveNote}
+                          deleteNote={dispatchDeleteNote}
+                          key={i}
+                          note={note}
+                        />
+                      );
+                    })}
+                </NotesWrapper>
+
+                <NotesWrapper>
+                  {Object.values(notes)
+                    .filter((note) => !note.isArchived && !note.isPinned)
+                    .map((note, i) => (
+                      <NoteCard
+                        updateNote={dispatchUpdateNote}
+                        selectNote={dispatchSetSelectedNote}
+                        archiveNote={dispatchUnArchiveNote}
+                        deleteNote={dispatchDeleteNote}
+                        key={i}
+                        note={note}
+                      />
+                    ))}
+                </NotesWrapper>
+              </Wrapper>
+            )}
           </>
         ) : (
           <>
@@ -136,7 +158,7 @@ export function NotesContainer({
                       />
                     ))}
                 </NotesWrapper>
-                <SectionWrapper>
+                <SectionWrapper marginTop={2}>
                   {showArchive && (
                     <p
                       style={{

@@ -12,11 +12,13 @@ import DeleteSvg from '../../Images/delete.svg';
 import ArchiveSvg from '../../Images/archive.svg';
 import unArchiveSvg from '../../Images/unArchive.svg';
 import PinIcon from '../../Images/pin.svg';
+import FilledPinSvg from '../../Images/filledPin.svg';
 
 const StyledIcon = styled.img`
   width: 1.25rem;
-  display: none;
+
   margin: 0 0.25rem;
+  ${(props) => (props.display ? `display: block;` : `display: none;`)}
 `;
 const ArchiveIcon = styled.img`
   width: 1.5rem;
@@ -74,18 +76,19 @@ function NoteCard({ note, deleteNote, archiveNote, selectNote, updateNote }) {
       <Row>
         <Title>{note.title}</Title>
         <StyledIcon
+          display={note.isPinned}
           onClick={(event) => {
             event.stopPropagation();
             updateNote({
               id: note.id,
               key: 'isPinned',
-              value: true
+              value: !note.isPinned
             });
             if (note.isArchived) {
               archiveNote(note.id);
             }
           }}
-          src={PinIcon}
+          src={note.isPinned ? FilledPinSvg : PinIcon}
         />
       </Row>
       <Description>{note.note}</Description>
@@ -93,6 +96,13 @@ function NoteCard({ note, deleteNote, archiveNote, selectNote, updateNote }) {
         <ArchiveIcon
           onClick={(event) => {
             event.stopPropagation();
+            if (note.isPinned) {
+              updateNote({
+                id: note.id,
+                key: 'isPinned',
+                value: false
+              });
+            }
             archiveNote(note.id);
           }}
           src={note.isArchived ? unArchiveSvg : ArchiveSvg}
