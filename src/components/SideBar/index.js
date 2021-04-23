@@ -26,11 +26,11 @@ const OptionIcon = styled.img`
     props.selected &&
     `
   background-color: ${colors.primary};
-  border: 0.5px solid #8500ff;
+  border: 0.5px solid  ${colors.purple};
   `}
   &:hover {
     background-color: ${colors.primary};
-    border: 0.5px solid #8500ff;
+    border: 0.5px solid ${colors.purple};
   }
 `;
 const NavCont = styled.nav`
@@ -65,7 +65,7 @@ const NavItem = styled.div`
     cursor: pointer;
   }
   &:hover ${OptionIcon} {
-    border: 0.5px solid #8500ff;
+    border: 0.5px solid ${colors.purple};
     background-color: ${colors.primary};
   }
   `}

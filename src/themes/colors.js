@@ -21,6 +21,7 @@ const off3 = '#6c757d';
 const defaultGray = '#333333';
 const whiteSmoke = '#f5f5f5';
 const backDrop = '#202124';
+const purple = '#8500ff';
 const colors = {
   transparent: 'rgba(0,0,0,0)',
   // Example colors:
@@ -39,6 +40,7 @@ const colors = {
   defaultGray,
   gray,
   whiteSmoke,
-  backDrop
+  backDrop,
+  purple
 };
 module.exports = colors;

@@ -13,6 +13,7 @@ import { indexes } from '../../themes/zIndex';
 import PinIcon from '../../Images/pin.svg';
 import ArchiveIcon from '../../Images/archive.svg';
 import UnArchiveSvg from '../../Images/unArchive.svg';
+import DeleteSvg from '../../Images/delete.svg';
 
 const Wrapper = styled.div`
   width: 40%;
@@ -64,13 +65,13 @@ const StyledIcon = styled.img`
   padding: 0.5rem;
   width: 1.5rem;
   &:hover {
-    background-color: ${colors.off1};
+    background-color: ${colors.primary};
   }
 `;
 const CloseBtn = styled.p`
   cursor: pointer;
 `;
-function Modal({ note, close, archiveNote, update }) {
+function Modal({ note, close, archiveNote, update, deleteNote }) {
   const textInputEl = useRef(null);
   const titleInputEl = useRef(null);
 
@@ -129,13 +130,22 @@ function Modal({ note, close, archiveNote, update }) {
         }}
       />
       <Row>
-        <StyledIcon
-          onClick={() => {
-            archiveNote(note.id);
-            close();
-          }}
-          src={note.isArchived ? UnArchiveSvg : ArchiveIcon}
-        />
+        <div>
+          <StyledIcon
+            onClick={() => {
+              archiveNote(note.id);
+              close();
+            }}
+            src={note.isArchived ? UnArchiveSvg : ArchiveIcon}
+          />
+          <StyledIcon
+            onClick={() => {
+              deleteNote(note.id);
+              close();
+            }}
+            src={DeleteSvg}
+          />
+        </div>
         <CloseBtn
           onClick={() => {
             // update
@@ -153,7 +163,8 @@ Modal.propTypes = {
   note: PropTypes.object.isRequired,
   close: PropTypes.func.isRequired,
   archiveNote: PropTypes.func.isRequired,
-  update: PropTypes.func.isRequired
+  update: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired
 };
 
 export default memo(Modal);

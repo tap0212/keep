@@ -7,7 +7,7 @@
 import React, { memo, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { colors, fonts } from '../../themes/index';
+import { colors, fonts, media } from '../../themes/index';
 import { indexes } from '../../themes/zIndex';
 import debounce from 'lodash/debounce';
 import CrossIcon from '../../Images/cross.png';
@@ -50,18 +50,24 @@ const SelectedTab = styled.p`
   color: ${colors.gray};
   ${fonts.size.large()};
   ${fonts.weights.fontWeight(300)};
+  ${media.largeMobile.max(`
+    ${fonts.size.big()};
+  `)}
 `;
 const InputCover = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid ${colors.off2};
-  padding: 0.5rem 1rem;
+  padding: 0rem 1rem;
+  height: 2.5rem;
   border-radius: 0.275rem;
-  width: 60%;
+  width: 50%;
+  background-color: ${colors.primary};
 `;
 const Input = styled.input`
   border: none;
+  background-color: ${colors.primary};
+  color: ${colors.purple};
   &:focus {
     border: none;
     outline: none;
@@ -72,9 +78,6 @@ const Cross = styled.img`
   width: 2rem;
   border-radius: 50%;
   padding: 0.25rem;
-  &:hover {
-    background-color: ${colors.off1};
-  }
 `;
 const SearchAndInputCover = styled.div`
   width: 90%;
@@ -83,6 +86,9 @@ const SearchAndInputCover = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  ${media.largeMobile.max(`
+    padding: 0.25rem;
+  `)}
 `;
 function Header({ currentRouteDetails, toggleSideBar, search, searchQuery }) {
   const debouncedSearch = debounce(search, 200);

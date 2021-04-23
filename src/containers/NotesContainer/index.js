@@ -178,6 +178,7 @@ export function NotesContainer({
         <>
           <Modal
             update={dispatchUpdateNote}
+            deleteNote={dispatchDeleteNote}
             archiveNote={dispatchArchiveNote}
             close={() => {
               dispatchSetSelectedNote(null);
