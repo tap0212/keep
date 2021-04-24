@@ -60,6 +60,7 @@ export function ArchivesContainer({
         {!searchResults.searchQuery ? (
           <>
             {notes &&
+              !selectedNote &&
               Object.values(notes).map(
                 (note, i) =>
                   note.isArchived && (

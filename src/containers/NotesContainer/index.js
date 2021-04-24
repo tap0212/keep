@@ -103,7 +103,7 @@ export function NotesContainer({
       <NotesWrapper>
         {!searchResults.searchQuery ? (
           <>
-            {notes && (
+            {notes && !selectedNote && (
               <Wrapper>
                 <NotesWrapper>
                   {Object.values(notes)
