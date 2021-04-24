@@ -14,6 +14,7 @@ import PinIcon from '../../Images/pin.svg';
 import ArchiveIcon from '../../Images/archive.svg';
 import UnArchiveSvg from '../../Images/unArchive.svg';
 import DeleteSvg from '../../Images/delete.svg';
+import FilledPinSvg from '../../Images/filledPin.svg';
 
 const Wrapper = styled.div`
   width: 40%;
@@ -71,7 +72,7 @@ const StyledIcon = styled.img`
 const CloseBtn = styled.p`
   cursor: pointer;
 `;
-function Modal({ note, close, archiveNote, update, deleteNote }) {
+function Modal({ note, close, update, deleteNote }) {
   const textInputEl = useRef(null);
   const titleInputEl = useRef(null);
 
@@ -103,14 +104,21 @@ function Modal({ note, close, archiveNote, update, deleteNote }) {
         ></TitleInput>
         <StyledIcon
           onClick={() => {
+            if (note.isArchived) {
+              update({
+                id: note.id,
+                key: 'isArchived',
+                value: !note.isArchived
+              });
+            }
             update({
               id: note.id,
               key: 'isPinned',
-              value: true
+              value: !note.isPinned
             });
             close();
           }}
-          src={PinIcon}
+          src={note.isPinned ? FilledPinSvg : PinIcon}
         />
       </Row>
       <NoteInput
@@ -133,7 +141,19 @@ function Modal({ note, close, archiveNote, update, deleteNote }) {
         <div>
           <StyledIcon
             onClick={() => {
-              archiveNote(note.id);
+              if (note.isPinned) {
+                update({
+                  id: note.id,
+                  key: 'isPinned',
+                  value: false
+                });
+              }
+              update({
+                id: note.id,
+                key: 'isArchived',
+                value: !note.isArchived
+              });
+
               close();
             }}
             src={note.isArchived ? UnArchiveSvg : ArchiveIcon}
@@ -162,7 +182,6 @@ function Modal({ note, close, archiveNote, update, deleteNote }) {
 Modal.propTypes = {
   note: PropTypes.object.isRequired,
   close: PropTypes.func.isRequired,
-  archiveNote: PropTypes.func.isRequired,
   update: PropTypes.func.isRequired,
   deleteNote: PropTypes.func.isRequired
 };

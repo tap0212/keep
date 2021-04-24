@@ -8,7 +8,7 @@ import { createActions } from 'reduxsauce';
 export const initialState = {
   isSidebarActive: false,
   notes: {},
-  searchResults: []
+  searchResults: {}
 };
 
 export const { Types: appTypes, Creators: appCreators } = createActions({
@@ -19,7 +19,9 @@ export const { Types: appTypes, Creators: appCreators } = createActions({
   unArchiveNote: ['noteId'],
   updateNote: ['data'],
   searchResult: ['data'],
-  toggleSidebar: []
+  toggleSidebar: [],
+  deleteSearchedNote: ['noteId'],
+  updateSearchedNote: ['data']
 });
 
 /* eslint-disable default-case, no-param-reassign */
@@ -56,6 +58,18 @@ export const keeperReducer = (state = initialState, action) =>
         break;
       case appTypes.TOGGLE_SIDEBAR:
         draft.isSidebarActive = !state.isSidebarActive;
+        break;
+      case appTypes.DELETE_SEARCHED_NOTE:
+        draft.notes = (function (state) {
+          const newstate = { ...state.notes };
+          delete newstate[action.noteId];
+          return newstate;
+        })(state);
+        draft.searchResults = { searchResp: [], searchQuery: '' };
+        break;
+      case appTypes.UPDATE_SEARCHED_NOTE:
+        draft.notes[action.data.id][action.data.key] = action.data.value;
+        draft.searchResults = { searchResp: [], searchQuery: '' };
         break;
       default:
         return state;

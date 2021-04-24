@@ -40,7 +40,6 @@ export function ArchivesContainer({
   notes,
   selectedNote,
   dispatchDeleteNote,
-  dispatchUnArchiveNote,
   dispatchUpdateNote,
   dispatchSetSelectedNote
 }) {
@@ -54,7 +53,6 @@ export function ArchivesContainer({
                 <NoteCard
                   selectNote={dispatchSetSelectedNote}
                   updateNote={dispatchUpdateNote}
-                  archiveNote={dispatchUnArchiveNote}
                   deleteNote={dispatchDeleteNote}
                   key={i}
                   note={note}
@@ -67,7 +65,6 @@ export function ArchivesContainer({
           <Modal
             update={dispatchUpdateNote}
             deleteNote={dispatchDeleteNote}
-            archiveNote={dispatchUnArchiveNote}
             close={() => {
               dispatchSetSelectedNote(null);
             }}
@@ -88,7 +85,6 @@ export function ArchivesContainer({
 ArchivesContainer.propTypes = {
   notes: PropTypes.object,
   dispatchDeleteNote: PropTypes.func,
-  dispatchUnArchiveNote: PropTypes.func,
   dispatchUpdateNote: PropTypes.func,
   dispatchSetSelectedNote: PropTypes.func,
   selectedNote: PropTypes.object
@@ -103,8 +99,6 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatchDeleteNote: (noteId) => dispatch(appCreators.deleteNote(noteId)),
-    dispatchUnArchiveNote: (noteId) =>
-      dispatch(appCreators.unArchiveNote(noteId)),
     dispatchUpdateNote: (note) => dispatch(appCreators.updateNote(note)),
     dispatchSetSelectedNote: (note) =>
       dispatch(archivesContainerCreators.setOpenedNote(note))

@@ -67,7 +67,7 @@ const ToolRow = styled.div`
 const Row = styled.div`
   ${styles.configureFlex('row', 'space-between', 'flex-start')}
 `;
-function NoteCard({ note, deleteNote, archiveNote, selectNote, updateNote }) {
+function NoteCard({ note, deleteNote, selectNote, updateNote }) {
   return (
     <Wrapper
       onClick={() => {
@@ -86,7 +86,11 @@ function NoteCard({ note, deleteNote, archiveNote, selectNote, updateNote }) {
               value: !note.isPinned
             });
             if (note.isArchived) {
-              archiveNote(note.id);
+              updateNote({
+                id: note.id,
+                key: 'isArchived',
+                value: !note.isArchived
+              });
             }
           }}
           src={note.isPinned ? FilledPinSvg : PinIcon}
@@ -105,7 +109,11 @@ function NoteCard({ note, deleteNote, archiveNote, selectNote, updateNote }) {
                 value: false
               });
             }
-            archiveNote(note.id);
+            updateNote({
+              id: note.id,
+              key: 'isArchived',
+              value: !note.isArchived
+            });
           }}
           src={note.isArchived ? unArchiveSvg : ArchiveSvg}
         />
@@ -124,7 +132,6 @@ function NoteCard({ note, deleteNote, archiveNote, selectNote, updateNote }) {
 NoteCard.propTypes = {
   note: PropTypes.object.isRequired,
   deleteNote: PropTypes.func.isRequired,
-  archiveNote: PropTypes.func.isRequired,
   selectNote: PropTypes.func.isRequired,
   updateNote: PropTypes.func.isRequired
 };

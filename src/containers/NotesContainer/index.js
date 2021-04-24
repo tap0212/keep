@@ -71,11 +71,11 @@ export function NotesContainer({
   notes,
   searchResults,
   dispatchDeleteNote,
-  dispatchArchiveNote,
   dispatchSetSelectedNote,
   selectedNote,
   dispatchUpdateNote,
-  dispatchUnArchiveNote
+  dispatchDeleteSearchedNote,
+  dispatchUpdateSearchedNote
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showArchive, setShowArchive] = useState(false);
@@ -113,7 +113,6 @@ export function NotesContainer({
                         <NoteCard
                           updateNote={dispatchUpdateNote}
                           selectNote={dispatchSetSelectedNote}
-                          archiveNote={dispatchArchiveNote}
                           deleteNote={dispatchDeleteNote}
                           key={i}
                           note={note}
@@ -129,7 +128,6 @@ export function NotesContainer({
                       <NoteCard
                         updateNote={dispatchUpdateNote}
                         selectNote={dispatchSetSelectedNote}
-                        archiveNote={dispatchArchiveNote}
                         deleteNote={dispatchDeleteNote}
                         key={i}
                         note={note}
@@ -148,10 +146,9 @@ export function NotesContainer({
                     .filter((note) => !note.isArchived)
                     .map((note, i) => (
                       <NoteCard
-                        updateNote={dispatchUpdateNote}
+                        updateNote={dispatchUpdateSearchedNote}
                         selectNote={dispatchSetSelectedNote}
-                        archiveNote={dispatchArchiveNote}
-                        deleteNote={dispatchDeleteNote}
+                        deleteNote={dispatchDeleteSearchedNote}
                         key={i}
                         note={note}
                       />
@@ -180,10 +177,9 @@ export function NotesContainer({
                       }
                       return (
                         <NoteCard
-                          updateNote={dispatchUpdateNote}
+                          updateNote={dispatchUpdateSearchedNote}
                           selectNote={dispatchSetSelectedNote}
-                          archiveNote={dispatchUnArchiveNote}
-                          deleteNote={dispatchDeleteNote}
+                          deleteNote={dispatchDeleteSearchedNote}
                           key={i}
                           note={note}
                         />
@@ -198,9 +194,16 @@ export function NotesContainer({
       {selectedNote && (
         <>
           <Modal
-            update={dispatchUpdateNote}
-            deleteNote={dispatchDeleteNote}
-            archiveNote={dispatchArchiveNote}
+            update={
+              searchResults.searchResp.length
+                ? dispatchUpdateSearchedNote
+                : dispatchUpdateNote
+            }
+            deleteNote={
+              searchResults.searchResp.length
+                ? dispatchDeleteSearchedNote
+                : dispatchDeleteNote
+            }
             close={() => {
               dispatchSetSelectedNote(null);
             }}
@@ -222,12 +225,12 @@ NotesContainer.propTypes = {
   dispatchAddNote: PropTypes.func,
   notes: PropTypes.object,
   dispatchDeleteNote: PropTypes.func,
-  dispatchArchiveNote: PropTypes.func,
   dispatchSetSelectedNote: PropTypes.func,
   selectedNote: PropTypes.object,
   dispatchUpdateNote: PropTypes.func,
   searchResults: PropTypes.object,
-  dispatchUnArchiveNote: PropTypes.func
+  dispatchDeleteSearchedNote: PropTypes.func,
+  dispatchUpdateSearchedNote: PropTypes.func
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -241,12 +244,14 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatchAddNote: (note) => dispatch(appCreators.addNote(note)),
     dispatchDeleteNote: (noteId) => dispatch(appCreators.deleteNote(noteId)),
-    dispatchArchiveNote: (noteId) => dispatch(appCreators.archiveNote(noteId)),
     dispatchSetSelectedNote: (note) =>
       dispatch(notesContainerCreators.setOpenedNote(note)),
     dispatchUpdateNote: (note) => dispatch(appCreators.updateNote(note)),
-    dispatchUnArchiveNote: (noteId) =>
-      dispatch(appCreators.unArchiveNote(noteId))
+
+    dispatchDeleteSearchedNote: (data) =>
+      dispatch(appCreators.deleteSearchedNote(data)),
+    dispatchUpdateSearchedNote: (data) =>
+      dispatch(appCreators.updateSearchedNote(data))
   };
 }
 
