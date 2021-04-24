@@ -7,37 +7,39 @@
 import React, { memo, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { colors, fonts, media } from '../../themes/index';
-import { indexes } from '../../themes/zIndex';
 import debounce from 'lodash/debounce';
+import { indexes } from '../../themes/zIndex';
 import CrossIcon from '../../Images/cross.png';
+import { colors, fonts, media } from '../../themes/index';
+
 const Wrapper = styled.div`
+  top: -1px;
   height: 3rem;
   padding: 1rem;
-  box-shadow: 0 1px 2px -2px black;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: -webkit-sticky;
   position: sticky;
-  top: -1px;
+  align-items: center;
   z-index: ${indexes.MID};
+  position: -webkit-sticky;
+  justify-content: space-between;
+  box-shadow: 0 1px 2px -2px black;
   background-color: ${(props) => props.theme.primary};
 `;
+
 const HamburgerCover = styled.div`
-  border-radius: 50%;
-  height: 4rem;
   width: 4rem;
+  height: 4rem;
   display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  cursor: pointer;
   z-index: ${indexes.LOW};
 `;
 const HamburgerLine = styled.div`
-  height: 0.25rem;
   width: 50%;
+  height: 0.25rem;
   margin: 0.125rem 0;
   border-radius: 0.125rem;
   background-color: ${colors.accent};
@@ -52,19 +54,19 @@ const SelectedTab = styled.p`
 `;
 const InputCover = styled.div`
   display: flex;
-  justify-content: space-between;
+  width: 50%;
+  height: 2.5rem;
   align-items: center;
   padding: 0rem 1rem;
-  height: 2.5rem;
   border-radius: 0.275rem;
-  width: 50%;
+  justify-content: space-between;
   background-color: ${(props) => props.theme.secondary};
 `;
 const Input = styled.input`
   border: none;
   width: 100%;
-  background-color: ${(props) => props.theme.secondary};
   color: ${(props) => props.theme.text};
+  background-color: ${(props) => props.theme.secondary};
   &:focus {
     border: none;
     outline: none;
@@ -88,13 +90,13 @@ const SearchAndInputCover = styled.div`
   `)}
 `;
 const Toggler = styled.button`
-  background: 0;
   border: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  height: 2rem;
   width: 4rem;
+  height: 2rem;
+  background: 0;
+  cursor: pointer;
   position: relative;
+  box-sizing: border-box;
   border: 1px solid rgba(255, 255, 255, 0);
   &:focus {
     outline: none;
@@ -135,12 +137,12 @@ const CustomSpan2 = styled.span`
   `}
 `;
 function Header({
-  currentRouteDetails,
-  toggleSideBar,
   search,
   searchQuery,
+  toggleSideBar,
   toggleDarkMode,
-  isDarkModeActive
+  isDarkModeActive,
+  currentRouteDetails
 }) {
   const debouncedSearch = debounce(search, 200);
   const searchInputEl = useRef(null);

@@ -89,6 +89,47 @@ function Modal({ note, close, update, deleteNote }) {
       textInputEl.current.focus();
     }
   };
+  const handlePinNote = () => {
+    if (note.isArchived) {
+      update({
+        id: note.id,
+        key: 'isArchived',
+        value: !note.isArchived
+      });
+    }
+    update({
+      id: note.id,
+      key: 'isPinned',
+      value: !note.isPinned
+    });
+    close();
+  };
+  const onChangeNoteInput = (e) => {
+    const debouncedUpdate = () => {
+      update({
+        id: note.id,
+        key: 'note',
+        value: e.target.value
+      });
+    };
+    debounce(debouncedUpdate, 200)();
+  };
+  const handleNoteArchive = () => {
+    if (note.isPinned) {
+      update({
+        id: note.id,
+        key: 'isPinned',
+        value: false
+      });
+    }
+    update({
+      id: note.id,
+      key: 'isArchived',
+      value: !note.isArchived
+    });
+
+    close();
+  };
   return (
     <Wrapper>
       <Row>
@@ -107,21 +148,7 @@ function Modal({ note, close, update, deleteNote }) {
           }}
         ></TitleInput>
         <StyledIcon
-          onClick={() => {
-            if (note.isArchived) {
-              update({
-                id: note.id,
-                key: 'isArchived',
-                value: !note.isArchived
-              });
-            }
-            update({
-              id: note.id,
-              key: 'isPinned',
-              value: !note.isPinned
-            });
-            close();
-          }}
+          onClick={handlePinNote}
           src={note.isPinned ? FilledPinSvg : PinIcon}
         />
       </Row>
@@ -130,36 +157,12 @@ function Modal({ note, close, update, deleteNote }) {
         autoFocus
         rows="4"
         placeholder="Take a note..."
-        onChange={(e) => {
-          const debouncedUpdate = () => {
-            update({
-              id: note.id,
-              key: 'note',
-              value: e.target.value
-            });
-          };
-          debounce(debouncedUpdate, 200)();
-        }}
+        onChange={onChangeNoteInput}
       />
       <Row>
         <div>
           <StyledIcon
-            onClick={() => {
-              if (note.isPinned) {
-                update({
-                  id: note.id,
-                  key: 'isPinned',
-                  value: false
-                });
-              }
-              update({
-                id: note.id,
-                key: 'isArchived',
-                value: !note.isArchived
-              });
-
-              close();
-            }}
+            onClick={handleNoteArchive}
             src={note.isArchived ? UnArchiveSvg : ArchiveIcon}
           />
           <StyledIcon

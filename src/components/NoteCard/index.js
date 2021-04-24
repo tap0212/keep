@@ -26,10 +26,6 @@ const ArchiveIcon = styled.img`
   margin: 0 0.25rem;
 `;
 const Wrapper = styled.div`
-  ${(props) =>
-    props.pinned
-      ? `border: 1px solid ${colors.accent};`
-      : `border: 1px solid  ${(props) => props.theme.primary};`}
   background-color: ${(props) => props.theme.primary};
   color: ${(props) => props.theme.text};
   margin: 0.5rem;
@@ -40,6 +36,10 @@ const Wrapper = styled.div`
   width: 14rem;
   transition: width 0.3s, height 0.3s, border-width 0.3s, box-shadow 0.3s;
   padding-bottom: 2rem;
+  ${(props) =>
+    props.pinned
+      ? `border: 1px solid ${colors.accent};`
+      : `border: 1px solid  ${(props) => props.theme.primary};`}
   &:hover {
     border-width: 1px 1px 1px 1px;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
