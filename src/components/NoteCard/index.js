@@ -17,7 +17,6 @@ import ReactMarkdown from 'react-markdown';
 
 const StyledIcon = styled.img`
   width: 1.25rem;
-
   margin: 0 0.25rem;
   ${(props) => (props.display ? `display: block;` : `display: none;`)}
 `;
@@ -29,16 +28,17 @@ const ArchiveIcon = styled.img`
 const Wrapper = styled.div`
   ${(props) =>
     props.pinned
-      ? `border: 1px solid ${colors.purple};`
-      : `border: 1px solid ${colors.off2};`}
-
+      ? `border: 1px solid ${colors.accent};`
+      : `border: 1px solid  ${(props) => props.theme.primary};`}
+  background-color: ${(props) => props.theme.primary};
+  color: ${(props) => props.theme.text};
   margin: 0.5rem;
   padding: 0.5rem;
   border-radius: 0.375rem;
   cursor: pointer;
   min-height: 6rem;
   width: 14rem;
-  transition: width 0.25s, height 0.25s, border-width 0.25s, box-shadow 0.25s;
+  transition: width 0.3s, height 0.3s, border-width 0.3s, box-shadow 0.3s;
   padding-bottom: 2rem;
   &:hover {
     border-width: 1px 1px 1px 1px;

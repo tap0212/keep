@@ -25,12 +25,12 @@ const OptionIcon = styled.img`
   ${(props) =>
     props.selected &&
     `
-  background-color: ${colors.primary};
-  border: 0.5px solid  ${colors.purple};
+  background-color: ${colors.accentDefault};
+  border: 0.5px solid  ${colors.accent};
   `}
   &:hover {
-    background-color: ${colors.primary};
-    border: 0.5px solid ${colors.purple};
+    background-color: ${colors.accentDefault};
+    border: 0.5px solid ${colors.accent};
   }
 `;
 const NavCont = styled.nav`
@@ -41,6 +41,7 @@ const NavCont = styled.nav`
   background-color: white;
   z-index: ${indexes.LOWEST};
   transition: all 0.3s ease;
+  background-color: ${(props) => props.theme.secondary};
   ${(props) => props.width && `width: ${props.width}rem`}
 `;
 const Nav = styled.ul`
@@ -56,17 +57,17 @@ const NavItem = styled.div`
   display: flex;
   align-items: center;
   border-radius: 1.5rem;
-  ${(props) => props.selected && `background-color: ${colors.primary};`}
+  ${(props) => props.selected && `background-color: ${colors.accentDefault};`}
   ${(props) =>
     props.isSidebarActive &&
     `
   &:hover {
-    background-color: ${colors.primary};
+    background-color: ${colors.accentDefault};
     cursor: pointer;
   }
   &:hover ${OptionIcon} {
-    border: 0.5px solid ${colors.purple};
-    background-color: ${colors.primary};
+    border: 0.5px solid ${colors.accent};
+    background-color: ${colors.accentDefault};
   }
   `}
 

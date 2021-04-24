@@ -5,28 +5,38 @@
  * That allows to change them more easily later on.
  */
 
-const primary = '#F5ECFF';
 const gray = '#606368';
 const off1 = '#F0F0F0';
 const off2 = '#d8d8d8';
 const off3 = '#6c757d';
 const backDrop = '#202124';
-const purple = '#8500ff';
+const accentDefault = '#F5ECFF';
+const accent = '#8500ff';
+const textDark = '#000000';
+const textLight = '#d8d8d8';
+const primaryLight = '#F0F0F0';
+const primaryDark = '#18191A';
+const secondaryLight = '#FFFFFF';
+const secondaryDark = '#242526';
 const colors = {
   // Example colors:
-  primary,
   off1,
   off2,
   off3,
   gray,
   backDrop,
-  purple,
+  accent,
+  accentDefault,
   theme: {
     lightMode: {
-      primary
+      text: textDark,
+      primary: primaryLight,
+      secondary: secondaryLight
     },
     darkMode: {
-      primary
+      text: textLight,
+      primary: primaryDark,
+      secondary: secondaryDark
     }
   }
 };

@@ -14,9 +14,8 @@ const Wrapper = styled.div`
   bottom: 0;
   right: 0;
   left: 0;
-
-  opacity: 0.6;
-  transition: opacity 0.218s ease-in;
+  opacity: 0.9;
+  transition: opacity 0.3s ease-in;
   z-index: ${indexes.MID_UPPER};
   ${(props) => props.color && `background-color: ${props.color};`}
 `;

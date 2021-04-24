@@ -30,7 +30,9 @@ import { getCurrentRouteDetails, trieSearch } from '../../utils';
 import { colors } from '../../themes';
 const Wrapper = styled.div`
   ${(props) => props.paddingLeft && `padding-left: ${props.paddingLeft}rem;`}
-  transition: padding-left 0.5s ease;
+  transition: background-color 0.3s,  padding-left 0.3s ease;
+  min-height: 100vh;
+  background-color: ${(props) => props.theme.secondary};
 `;
 const App = ({
   isSidebarActive,
@@ -51,8 +53,12 @@ const App = ({
   };
   const sidebarRange = [5, 15];
   return (
-    <ThemeProvider theme={colors.theme.lightMode}>
+    <ThemeProvider
+      theme={isDarkModeActive ? colors.theme.darkMode : colors.theme.lightMode}
+    >
       <Header
+        isDarkModeActive={isDarkModeActive}
+        toggleDarkMode={dispatchToggleDarkMode}
         searchQuery={searchedQuery}
         search={handleSearch}
         toggleSideBar={dispatchToggleSideBar}

@@ -27,6 +27,8 @@ const Wrapper = styled.div`
   transform: translate(-50%, -50%);
   z-index: ${indexes.TOP};
   padding: 1rem;
+  background-color: ${(props) => props.theme.primary};
+  color: ${(props) => props.theme.text};
   ${media.largeMobile.max(`
     width: 80%;
     min-height: 30%;
@@ -41,6 +43,8 @@ const NoteInput = styled.textarea`
   resize: none;
   border: none;
   margin: 0.75rem 0;
+  color: ${(props) => props.theme.text};
+  background-color: ${(props) => props.theme.primary};
   ${fonts.size.xRegular()}
   &:focus {
     outline: none;
@@ -54,6 +58,7 @@ const TitleInput = styled.span`
   display: block;
   overflow: hidden;
   margin: 0.75rem 0;
+  color: ${(props) => props.theme.text};
   ${fonts.size.regular()}
   &:focus {
     outline: none;
@@ -65,7 +70,7 @@ const StyledIcon = styled.img`
   padding: 0.5rem;
   width: 1.5rem;
   &:hover {
-    background-color: ${colors.primary};
+    background-color: ${colors.accentDefault};
   }
 `;
 const CloseBtn = styled.p`

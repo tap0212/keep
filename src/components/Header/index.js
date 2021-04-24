@@ -22,6 +22,7 @@ const Wrapper = styled.div`
   position: sticky;
   top: -1px;
   z-index: ${indexes.MID};
+  background-color: ${(props) => props.theme.primary};
 `;
 const HamburgerCover = styled.div`
   border-radius: 50%;
@@ -42,7 +43,7 @@ const HamburgerLine = styled.div`
   width: 50%;
   margin: 0.125rem 0;
   border-radius: 0.125rem;
-  background-color: ${colors.gray};
+  background-color: ${colors.accent};
 `;
 const SelectedTab = styled.p`
   color: ${colors.gray};
@@ -60,12 +61,13 @@ const InputCover = styled.div`
   height: 2.5rem;
   border-radius: 0.275rem;
   width: 50%;
-  background-color: ${colors.primary};
+  background-color: ${(props) => props.theme.secondary};
 `;
 const Input = styled.input`
   border: none;
-  background-color: ${colors.primary};
-  color: ${colors.purple};
+  width: 100%;
+  background-color: ${(props) => props.theme.secondary};
+  color: ${(props) => props.theme.text};
   &:focus {
     border: none;
     outline: none;
@@ -88,7 +90,61 @@ const SearchAndInputCover = styled.div`
     padding: 0.25rem;
   `)}
 `;
-function Header({ currentRouteDetails, toggleSideBar, search, searchQuery }) {
+const Toggler = styled.button`
+  background: 0;
+  border: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 2rem;
+  width: 4rem;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0);
+  &:focus {
+    outline: none;
+  }
+`;
+const CustomSpan1 = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4rem;
+  height: 2rem;
+  border-radius: 1.25rem;
+  background-color: ${colors.off2};
+  box-shadow: inset 1px 1px 3px 0 rgb(0 0 0 / 40%);
+  transition: 0.3s;
+  ${(props) =>
+    props.isDarkModeActive &&
+    `
+    background-color: ${colors.off2};
+    color: ${colors.secondaryDark};
+  `}
+`;
+const CustomSpan2 = styled.span`
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px 0 rgb(0 0 0 / 40%);
+  transition: 0.3s;
+  ${(props) =>
+    props.isDarkModeActive &&
+    `
+    left: 36px;
+    background-color: ${colors.secondaryDark};
+  `}
+`;
+function Header({
+  currentRouteDetails,
+  toggleSideBar,
+  search,
+  searchQuery,
+  toggleDarkMode,
+  isDarkModeActive
+}) {
   const debouncedSearch = debounce(search, 200);
   const searchInputEl = useRef(null);
   useEffect(() => {
@@ -119,6 +175,10 @@ function Header({ currentRouteDetails, toggleSideBar, search, searchQuery }) {
           {searchQuery && <Cross src={CrossIcon} onClick={cancelSearch} />}
         </InputCover>
       </SearchAndInputCover>
+      <Toggler onClick={toggleDarkMode}>
+        <CustomSpan1 isDarkModeActive={isDarkModeActive}></CustomSpan1>
+        <CustomSpan2 isDarkModeActive={isDarkModeActive}></CustomSpan2>
+      </Toggler>
     </Wrapper>
   );
 }
@@ -127,7 +187,9 @@ Header.propTypes = {
   currentRouteDetails: PropTypes.object.isRequired,
   toggleSideBar: PropTypes.func.isRequired,
   search: PropTypes.func.isRequired,
-  searchQuery: PropTypes.string.isRequired
+  searchQuery: PropTypes.string.isRequired,
+  toggleDarkMode: PropTypes.func.isRequired,
+  isDarkModeActive: PropTypes.bool.isRequired
 };
 
 export default memo(Header);

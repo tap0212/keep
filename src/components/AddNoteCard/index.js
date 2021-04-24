@@ -13,11 +13,11 @@ import ArchiveIcon from '../../Images/archive.svg';
 import { v4 as uuidv4 } from 'uuid';
 
 const Card = styled.div`
-  border: 1px solid ${colors.off1};
+  border: 1px solid ${(props) => props.theme.primary};
   width: 40%;
   margin: 2rem 0;
   padding: 0rem 0.5rem;
-  color: ${colors.off3};
+  color: ${(props) => props.theme.text};
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -25,6 +25,7 @@ const Card = styled.div`
   align-items: space-between;
   border-radius: 0.5rem;
   border-width: 1px 1px 1px 6px;
+  background-color: ${(props) => props.theme.primary};
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
   ${media.largeDesktop.max(`
     width: 75%;
@@ -34,10 +35,11 @@ const TitleInput = styled.span`
   border: none;
   width: 100%;
   resize: none;
-  color: black;
   display: block;
   overflow: hidden;
   margin: 0.75rem 0;
+  color: ${(props) => props.theme.text};
+  background-color: ${(props) => props.theme.primary};
   ${fonts.size.regular()}
   &:focus {
     outline: none;
@@ -47,6 +49,8 @@ const NoteInput = styled.textarea`
   resize: none;
   border: none;
   margin: 0.75rem 0;
+  color: ${(props) => props.theme.text};
+  background-color: ${(props) => props.theme.primary};
   ${fonts.size.xRegular()}
   &:focus {
     outline: none;
@@ -61,7 +65,7 @@ const StyledIcon = styled.img`
   padding: 0.5rem;
   width: 1.5rem;
   &:hover {
-    background-color: ${colors.off1};
+    background-color: ${colors.accentDefault};
   }
 `;
 function AddNoteCard({ toggleCard, addNote }) {
