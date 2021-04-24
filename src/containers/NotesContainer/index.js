@@ -67,13 +67,13 @@ const SectionWrapper = styled.div`
 `;
 
 export function NotesContainer({
-  dispatchAddNote,
   notes,
+  selectedNote,
   searchResults,
+  dispatchAddNote,
+  dispatchUpdateNote,
   dispatchDeleteNote,
   dispatchSetSelectedNote,
-  selectedNote,
-  dispatchUpdateNote,
   dispatchDeleteSearchedNote,
   dispatchUpdateSearchedNote
 }) {
