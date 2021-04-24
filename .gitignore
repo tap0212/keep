@@ -10,6 +10,5 @@ dist
 .DS_Store
 npm-debug.log
 .idea
-.env.production
 .env.development
 yarn-error.log

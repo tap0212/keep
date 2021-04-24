@@ -8,7 +8,6 @@ import App from './containers/app/';
 import ErrorBoundary from './components/ErrorBoundary';
 import 'regenerator-runtime/runtime.js';
 import configureStore from './configureStore';
-import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 
 // Create redux store with history
 const initialState = {};
