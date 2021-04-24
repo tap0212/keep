@@ -27,7 +27,11 @@ const ArchiveIcon = styled.img`
   margin: 0 0.25rem;
 `;
 const Wrapper = styled.div`
-  border: 1px solid ${colors.off2};
+  ${(props) =>
+    props.pinned
+      ? `border: 1px solid ${colors.purple};`
+      : `border: 1px solid ${colors.off2};`}
+
   margin: 0.5rem;
   padding: 0.5rem;
   border-radius: 0.375rem;
@@ -53,10 +57,7 @@ const Title = styled.p`
   width: 90%;
   ${fonts.size.big()}
 `;
-const Description = styled.p`
-  word-wrap: break-word;
-  width: 90%;
-`;
+
 const ToolRow = styled.div`
   position: absolute;
   padding: 0.5rem;
@@ -70,6 +71,7 @@ const Row = styled.div`
 function NoteCard({ note, deleteNote, selectNote, updateNote }) {
   return (
     <Wrapper
+      pinned={note.isPinned}
       onClick={() => {
         selectNote(note);
       }}
