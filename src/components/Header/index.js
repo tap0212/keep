@@ -34,9 +34,6 @@ const HamburgerCover = styled.div`
   align-items: center;
   cursor: pointer;
   z-index: ${indexes.LOW};
-  &:hover {
-    background-color: ${colors.off1};
-  }
 `;
 const HamburgerLine = styled.div`
   height: 0.25rem;
