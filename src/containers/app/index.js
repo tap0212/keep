@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { routeConfig } from '../../routeConfig';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -20,12 +20,14 @@ import Header from '../../components/Header';
 import GlobalStyle from '../../global-styles';
 import SideBar from '../../components/SideBar';
 import {
+  selectIsDarkModeActive,
   selectIsSidebarActive,
   selectNotes,
   selectSearchQuery
 } from './selectors';
 import { appCreators } from './reducer';
 import { getCurrentRouteDetails, trieSearch } from '../../utils';
+import { colors } from '../../themes';
 const Wrapper = styled.div`
   ${(props) => props.paddingLeft && `padding-left: ${props.paddingLeft}rem;`}
   transition: padding-left 0.5s ease;
@@ -36,7 +38,9 @@ const App = ({
   notes,
   searchedQuery,
   dispatchSetSearchResult,
-  dispatchToggleSideBar
+  dispatchToggleSideBar,
+  isDarkModeActive,
+  dispatchToggleDarkMode
 }) => {
   const currentRouteDetails = getCurrentRouteDetails(location);
 
@@ -47,7 +51,7 @@ const App = ({
   };
   const sidebarRange = [5, 15];
   return (
-    <>
+    <ThemeProvider theme={colors.theme.lightMode}>
       <Header
         searchQuery={searchedQuery}
         search={handleSearch}
@@ -87,7 +91,7 @@ const App = ({
         })}
       </Switch>
       <GlobalStyle />
-    </>
+    </ThemeProvider>
   );
 };
 
@@ -97,17 +101,21 @@ App.propTypes = {
   notes: PropTypes.object,
   dispatchSetSearchResult: PropTypes.func,
   searchedQuery: PropTypes.string,
-  dispatchToggleSideBar: PropTypes.func
+  dispatchToggleSideBar: PropTypes.func,
+  isDarkModeActive: PropTypes.bool,
+  dispatchToggleDarkMode: PropTypes.func
 };
 const mapStateToProps = createStructuredSelector({
   isSidebarActive: selectIsSidebarActive(),
   notes: selectNotes(),
-  searchedQuery: selectSearchQuery()
+  searchedQuery: selectSearchQuery(),
+  isDarkModeActive: selectIsDarkModeActive()
 });
 function mapDispatchToProps(dispatch) {
   return {
     dispatchSetSearchResult: (data) => dispatch(appCreators.searchResult(data)),
-    dispatchToggleSideBar: () => dispatch(appCreators.toggleSidebar())
+    dispatchToggleSideBar: () => dispatch(appCreators.toggleSidebar()),
+    dispatchToggleDarkMode: () => dispatch(appCreators.toggleDarkMode())
   };
 }
 const withConnect = connect(mapStateToProps, mapDispatchToProps);

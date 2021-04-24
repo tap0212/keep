@@ -14,7 +14,6 @@ import CrossIcon from '../../Images/cross.png';
 const Wrapper = styled.div`
   height: 3rem;
   padding: 1rem;
-  border-bottom: 1px solid ${colors.whiteSmoke};
   box-shadow: 0 1px 2px -2px black;
   display: flex;
   justify-content: space-between;
@@ -22,7 +21,6 @@ const Wrapper = styled.div`
   position: -webkit-sticky;
   position: sticky;
   top: -1px;
-  background-color: white;
   z-index: ${indexes.MID};
 `;
 const HamburgerCover = styled.div`

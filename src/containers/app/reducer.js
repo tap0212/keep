@@ -8,7 +8,8 @@ import { createActions } from 'reduxsauce';
 export const initialState = {
   isSidebarActive: false,
   notes: {},
-  searchResults: {}
+  searchResults: {},
+  isDarkModeActive: false
 };
 
 export const { Types: appTypes, Creators: appCreators } = createActions({
@@ -21,7 +22,8 @@ export const { Types: appTypes, Creators: appCreators } = createActions({
   searchResult: ['data'],
   toggleSidebar: [],
   deleteSearchedNote: ['noteId'],
-  updateSearchedNote: ['data']
+  updateSearchedNote: ['data'],
+  toggleDarkMode: []
 });
 
 /* eslint-disable default-case, no-param-reassign */
@@ -70,6 +72,9 @@ export const keeperReducer = (state = initialState, action) =>
       case appTypes.UPDATE_SEARCHED_NOTE:
         draft.notes[action.data.id][action.data.key] = action.data.value;
         draft.searchResults = { searchResp: [], searchQuery: '' };
+        break;
+      case appTypes.TOGGLE_DARK_MODE:
+        draft.isDarkModeActive = !state.isDarkModeActive;
         break;
       default:
         return state;

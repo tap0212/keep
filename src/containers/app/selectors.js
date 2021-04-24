@@ -32,4 +32,8 @@ export const selectSearchQuery = () =>
   createSelector(selectAppContainerDomain, (substate) =>
     get(substate, 'searchResults.searchQuery', '')
   );
+export const selectIsDarkModeActive = () =>
+  createSelector(selectAppContainerDomain, (substate) =>
+    get(substate, 'isDarkModeActive', false)
+  );
 export default selectHomeContainer;
