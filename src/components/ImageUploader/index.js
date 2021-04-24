@@ -57,7 +57,8 @@ const ImageUploader = ({ id, setImageData }) => {
       .on('httpUploadProgress', (evt) => {
         setImageData({
           progress: Math.round((evt.loaded / evt.total) * 100),
-          name: imageName
+          name: imageName,
+          selectedFile
         });
       })
       .send((err) => {

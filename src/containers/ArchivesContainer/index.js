@@ -57,7 +57,7 @@ export function ArchivesContainer({
   return (
     <Wrapper>
       <NotesWrapper>
-        {!searchResults.searchQuery ? (
+        {!searchResults?.searchQuery ? (
           <>
             {notes &&
               !selectedNote &&
@@ -76,10 +76,10 @@ export function ArchivesContainer({
           </>
         ) : (
           <>
-            {!!searchResults.searchResp.length && (
+            {!!searchResults?.searchResp?.length && (
               <Wrapper>
                 <NotesWrapper>
-                  {searchResults.searchResp
+                  {searchResults?.searchResp
                     .filter((note) => !note.isArchived)
                     .map((note, i) => (
                       <NoteCard
@@ -106,7 +106,7 @@ export function ArchivesContainer({
                 </SectionWrapper>
 
                 <NotesWrapper>
-                  {searchResults.searchResp
+                  {searchResults?.searchResp
                     .filter((note) => note.isArchived)
                     .map((note, i) => {
                       if (!showArchive) {
@@ -132,12 +132,12 @@ export function ArchivesContainer({
         <>
           <Modal
             update={
-              searchResults.searchResp.length
+              searchResults?.searchResp?.length
                 ? dispatchUpdateSearchedNote
                 : dispatchUpdateNote
             }
             deleteNote={
-              searchResults.searchResp.length
+              searchResults?.searchResp?.length
                 ? dispatchDeleteSearchedNote
                 : dispatchDeleteNote
             }

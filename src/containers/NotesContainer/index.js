@@ -101,7 +101,7 @@ export function NotesContainer({
         </NoNotesWrapper>
       )}
       <NotesWrapper>
-        {!searchResults.searchQuery ? (
+        {!searchResults?.searchQuery ? (
           <>
             {notes && !selectedNote && (
               <Wrapper>
@@ -139,10 +139,10 @@ export function NotesContainer({
           </>
         ) : (
           <>
-            {!!searchResults.searchResp.length && (
+            {!!searchResults?.searchResp?.length && (
               <Wrapper>
                 <NotesWrapper>
-                  {searchResults.searchResp
+                  {searchResults?.searchResp
                     .filter((note) => !note.isArchived)
                     .map((note, i) => (
                       <NoteCard
@@ -169,7 +169,7 @@ export function NotesContainer({
                 </SectionWrapper>
 
                 <NotesWrapper>
-                  {searchResults.searchResp
+                  {searchResults?.searchResp
                     .filter((note) => note.isArchived)
                     .map((note, i) => {
                       if (!showArchive) {
@@ -195,12 +195,12 @@ export function NotesContainer({
         <>
           <Modal
             update={
-              searchResults.searchResp.length
+              searchResults?.searchResp?.length
                 ? dispatchUpdateSearchedNote
                 : dispatchUpdateNote
             }
             deleteNote={
-              searchResults.searchResp.length
+              searchResults?.searchResp?.length
                 ? dispatchDeleteSearchedNote
                 : dispatchDeleteNote
             }

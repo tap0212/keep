@@ -156,7 +156,9 @@ function AddNoteCard({ toggleCard, addNote }) {
       />
       {imageData?.progress === 100 && (
         <UploadedImageCover>
-          <StyledUploadedImage src={uploadedImageLink} />
+          <StyledUploadedImage
+            src={URL.createObjectURL(imageData?.selectedFile)}
+          />
         </UploadedImageCover>
       )}
       <Row>
