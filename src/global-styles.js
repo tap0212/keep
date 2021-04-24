@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-@import '~antd/dist/antd.css';
   html,
   body {
     height: 100%;
@@ -11,7 +10,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
     font-family: 'Ubuntu', sans-serif;
   }
 

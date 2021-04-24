@@ -18,7 +18,8 @@ import ReactMarkdown from 'react-markdown';
 const StyledIcon = styled.img`
   width: 1.25rem;
   margin: 0 0.25rem;
-  ${(props) => (props.display ? `display: block;` : `display: none;`)}
+  ${(props) =>
+    props.display === 'true' ? `display: block;` : `display: none;`}
 `;
 const ArchiveIcon = styled.img`
   width: 1.5rem;
@@ -79,7 +80,7 @@ function NoteCard({ note, deleteNote, selectNote, updateNote }) {
       <Row>
         <Title>{note.title}</Title>
         <StyledIcon
-          display={note.isPinned}
+          display={note.isPinned.toString()}
           onClick={(event) => {
             event.stopPropagation();
             updateNote({
