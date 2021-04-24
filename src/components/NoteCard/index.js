@@ -13,6 +13,7 @@ import ArchiveSvg from '../../Images/archive.svg';
 import unArchiveSvg from '../../Images/unArchive.svg';
 import PinIcon from '../../Images/pin.svg';
 import FilledPinSvg from '../../Images/filledPin.svg';
+import ReactMarkdown from 'react-markdown';
 
 const StyledIcon = styled.img`
   width: 1.25rem;
@@ -91,7 +92,8 @@ function NoteCard({ note, deleteNote, archiveNote, selectNote, updateNote }) {
           src={note.isPinned ? FilledPinSvg : PinIcon}
         />
       </Row>
-      <Description>{note.note}</Description>
+      <ReactMarkdown>{note.note}</ReactMarkdown>
+      {/* <Description>{note.note}</Description> */}
       <ToolRow>
         <ArchiveIcon
           onClick={(event) => {

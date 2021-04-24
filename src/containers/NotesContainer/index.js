@@ -129,7 +129,7 @@ export function NotesContainer({
                       <NoteCard
                         updateNote={dispatchUpdateNote}
                         selectNote={dispatchSetSelectedNote}
-                        archiveNote={dispatchUnArchiveNote}
+                        archiveNote={dispatchArchiveNote}
                         deleteNote={dispatchDeleteNote}
                         key={i}
                         note={note}
