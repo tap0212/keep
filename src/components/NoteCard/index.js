@@ -67,6 +67,7 @@ const ToolRow = styled.div`
   display: flex;
 `;
 const Row = styled.div`
+  height: 1.5rem;
   ${styles.configureFlex('row', 'space-between', 'flex-start')}
 `;
 const Image = styled.img`
