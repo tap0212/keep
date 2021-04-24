@@ -69,6 +69,10 @@ const ToolRow = styled.div`
 const Row = styled.div`
   ${styles.configureFlex('row', 'space-between', 'flex-start')}
 `;
+const Image = styled.img`
+  width: 100%;
+  border-radius: 1rem;
+`;
 function NoteCard({ note, deleteNote, selectNote, updateNote }) {
   return (
     <Wrapper
@@ -100,7 +104,7 @@ function NoteCard({ note, deleteNote, selectNote, updateNote }) {
         />
       </Row>
       <ReactMarkdown>{note.note}</ReactMarkdown>
-      {/* <Description>{note.note}</Description> */}
+      <Image src={note?.image} />
       <ToolRow>
         <ArchiveIcon
           onClick={(event) => {

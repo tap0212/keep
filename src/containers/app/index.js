@@ -45,7 +45,6 @@ const App = ({
   dispatchToggleDarkMode
 }) => {
   const currentRouteDetails = getCurrentRouteDetails(location);
-
   const handleSearch = (searchQuery) => {
     const searchResp =
       trieSearch(Object.values(notes), ['note', 'title'], searchQuery) ?? [];

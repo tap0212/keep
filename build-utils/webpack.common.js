@@ -1,7 +1,7 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const webpack = require('webpack');
 module.exports = {
   entry: path.resolve(__dirname, '..', './src/index.js'),
   module: {
@@ -85,6 +85,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Keep',
       template: path.resolve(__dirname, '..', './src/index.html')
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser'
     })
   ],
   output: {

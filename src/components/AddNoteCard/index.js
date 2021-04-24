@@ -11,11 +11,12 @@ import styled from 'styled-components';
 import PinIcon from '../../Images/pin.svg';
 import ArchiveIcon from '../../Images/archive.svg';
 import { colors, fonts, media, styles } from '../../themes';
+import ImageUpload from '../ImageUploader';
 
 const Card = styled.div`
   width: 40%;
   margin: 2rem 0;
-  padding: 0rem 0.5rem;
+  padding: 0.5rem;
   cursor: pointer;
   display: flex;
   border-radius: 0.5rem;
@@ -57,6 +58,7 @@ const NoteInput = styled.textarea`
   background-color: ${(props) => props.theme.primary};
 `;
 const Row = styled.div`
+  ${(props) => props.width && `width: ${props.width}%`}
   ${styles.configureFlex('row', 'space-between')}
 `;
 const StyledIcon = styled.img`
@@ -68,41 +70,59 @@ const StyledIcon = styled.img`
     background-color: ${colors.accentDefault};
   }
 `;
+const ProgressBar = styled.div`
+  height: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: ${colors.accent};
+  transition: width 0.5s ease;
+  ${(props) => (props.progress ? `width: ${props.progress}%` : 'width: 0%')}
+`;
+const UploadedImageCover = styled.div`
+  width: 100%;
+  ${styles.configureFlex('row', 'center')};
+`;
+const StyledUploadedImage = styled.img`
+  width: 50%;
+`;
 function AddNoteCard({ toggleCard, addNote }) {
   const textInputEl = useRef(null);
   const [note, setNote] = useState('');
   const [title, setTitle] = useState('');
   const [isArchived, setIsArchived] = useState(false);
   const [toBePinned, setToBePinned] = useState(false);
-
+  const [imageData, setImageData] = useState(null);
+  const uploadedImageLink = `https://${process.env.S3_BUCKET}.s3.${process.env.REGION}.amazonaws.com/${imageData?.name}`;
+  const id = uuidv4();
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       textInputEl.current.focus();
     }
   };
   const handleClose = () => {
-    if (!title && !note) {
+    if (!title && !note && !imageData) {
       toggleCard();
       return;
     }
     addNote({
-      id: uuidv4(),
+      id,
       title,
       note,
       isArchived,
-      isPinned: toBePinned
+      isPinned: toBePinned,
+      image: imageData?.progress === 100 ? uploadedImageLink : ''
     });
     toggleCard();
   };
   const handleArchive = () => {
     setIsArchived(true);
-    if (title || note) {
+    if (title || note || imageData) {
       addNote({
-        id: uuidv4(),
+        id,
         title,
         note,
         isArchived: true,
-        isPinned: toBePinned
+        isPinned: toBePinned,
+        image: imageData?.progress === 100 ? uploadedImageLink : ''
       });
       toggleCard();
     }
@@ -134,10 +154,21 @@ function AddNoteCard({ toggleCard, addNote }) {
           setNote(e.target.value);
         }}
       />
+      {imageData?.progress === 100 && (
+        <UploadedImageCover>
+          <StyledUploadedImage src={uploadedImageLink} />
+        </UploadedImageCover>
+      )}
       <Row>
-        <StyledIcon onClick={handleArchive} src={ArchiveIcon} />
+        <Row width={20}>
+          <StyledIcon onClick={handleArchive} src={ArchiveIcon} />
+          {imageData?.progress !== 100 && (
+            <ImageUpload setImageData={setImageData} id={id} />
+          )}
+        </Row>
         <p onClick={handleClose}>Close</p>
       </Row>
+      <ProgressBar progress={imageData?.progress} />
     </Card>
   );
 }

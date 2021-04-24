@@ -4,10 +4,9 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import history from './utils/history';
-
 import App from './containers/app/';
 import ErrorBoundary from './components/ErrorBoundary';
-
+import 'regenerator-runtime/runtime.js';
 import configureStore from './configureStore';
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 
