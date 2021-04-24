@@ -52,7 +52,6 @@ const ImageUploader = ({ id, setImageData }) => {
       Bucket: S3_BUCKET,
       Key: imageName
     };
-    console.log(process.env.ACCESS_KEY);
     myBucket
       .putObject(params)
       .on('httpUploadProgress', (evt) => {
