@@ -1,5 +1,8 @@
-## Keep 💡
+## [Keep](https://keep-lovat.vercel.app/) 💡
+###### @ https://keep-lovat.vercel.app/
 ` An attempt to re-create Google's Keep app`.
+
+<img src="https://github.com/tap0212/keep/blob/main/showcase.gif"  width="75%">
 
 ### Features
 - Add notes with title and/or description
@@ -64,6 +67,15 @@
 }
 ```
 * Trie Search is used to perform a global search using [trie-search](https://www.npmjs.com/package/trie-search)
+--- 
+### Performance
+- Lighthouse Score: Whooping 99
+- FCP: 600ms
+- TTI: 1100ms
+You can check more in below attached screenshot
+ <img src="https://github.com/tap0212/keep/blob/main/report.png" width="60%" >
+
+---
 ### To run the project locally follow these steps
 
 - Clone the project and cd into the directory
