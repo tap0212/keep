@@ -74,6 +74,9 @@ const Image = styled.img`
   width: 100%;
   border-radius: 1rem;
 `;
+const MarkDownCover = styled.div`
+  line-break: anywhere;
+`;
 function NoteCard({ note, deleteNote, selectNote, updateNote }) {
   return (
     <Wrapper
@@ -104,7 +107,10 @@ function NoteCard({ note, deleteNote, selectNote, updateNote }) {
           src={note.isPinned ? FilledPinSvg : PinIcon}
         />
       </Row>
-      <ReactMarkdown>{note.note}</ReactMarkdown>
+      <MarkDownCover>
+        <ReactMarkdown>{note.note}</ReactMarkdown>
+      </MarkDownCover>
+
       <Image src={note?.image} />
       <ToolRow>
         <ArchiveIcon
