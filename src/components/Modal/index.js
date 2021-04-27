@@ -157,7 +157,7 @@ function Modal({ note, close, update, deleteNote }) {
         autoFocus
         rows="4"
         placeholder="Take a note..."
-        onChange={onChangeNoteInput}
+        onBlur={onChangeNoteInput}
       />
       <Row>
         <div>
