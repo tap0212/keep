@@ -8,10 +8,10 @@ import { createActions } from 'reduxsauce';
 import { getPersistedData } from '../../utils';
 
 export const initialState = {
-  isSidebarActive: getPersistedData().isSidebarActive,
-  notes: getPersistedData().notes,
-  searchResults: getPersistedData().searchResults,
-  isDarkModeActive: getPersistedData().isDarkModeActive
+  isSidebarActive: getPersistedData().isSidebarActive ?? false,
+  notes: getPersistedData().notes ?? {},
+  searchResults: getPersistedData().searchResults ?? [],
+  isDarkModeActive: getPersistedData().isDarkModeActive ?? false
 };
 
 export const { Types: appTypes, Creators: appCreators } = createActions({

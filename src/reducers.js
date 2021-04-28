@@ -3,9 +3,6 @@
  */
 
 import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router';
-
-import history from './utils/history';
 import App from './containers/app/reducer';
 import archivesContainer from './containers/ArchivesContainer/reducer';
 import notesContainer from './containers/NotesContainer/reducer';
@@ -14,7 +11,6 @@ import notesContainer from './containers/NotesContainer/reducer';
  */
 export default function createReducer() {
   const rootReducer = combineReducers({
-    router: connectRouter(history),
     App,
     archivesContainer,
     notesContainer
