@@ -20,9 +20,6 @@
     * Check [src/configureStore.js](https://github.com/tap0212/keep/blob/main/src/configureStore.js)
     * Check [src/reducers.js](https://github.com/tap0212/keep/blob/main/src/reducers.js)
 ---
-* State persistence using [Redux Persist](https://github.com/rt2zz/redux-persist#readme)
-    * LocalStorage as storage
----
 * Computing and getting state from the redux store using [Reselect](https://github.com/reduxjs/reselect)
     * Check [src/containers/NotesContainer/selectors.js](https://github.com/tap0212/keep/blob/main/src/containers/NotesContainer/selectors.js)
 ---

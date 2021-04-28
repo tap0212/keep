@@ -3,23 +3,9 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import immutableTransform from 'redux-persist-transform-immutable';
-import storage from 'redux-persist/lib/storage';
 import createReducer from './reducers';
 
-// redux persit configuration
-const persistConfig = {
-  version: 1,
-  transforms: [immutableTransform()],
-  key: 'root',
-  blacklist: ['router'],
-  storage
-};
-
-const persistedReducer = persistReducer(persistConfig, createReducer());
-
-export default function configureStore(initialState = {}, history) {
+export default function configureStore(initialState = {}) {
   let composeEnhancers = compose;
 
   // If Redux Dev Tools enable it
@@ -34,12 +20,10 @@ export default function configureStore(initialState = {}, history) {
   const enhancers = [applyMiddleware(...[])];
 
   const store = createStore(
-    persistedReducer,
+    createReducer(),
     initialState,
     composeEnhancers(...enhancers)
   );
-
-  const persistor = persistStore(store);
 
   // Extensions
   store.injectedReducers = {}; // Reducer registry
@@ -52,5 +36,5 @@ export default function configureStore(initialState = {}, history) {
     });
   }
 
-  return { store, persistor };
+  return { store };
 }
