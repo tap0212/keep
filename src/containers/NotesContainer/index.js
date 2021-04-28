@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -25,6 +25,8 @@ import { appCreators } from '../app/reducer';
 import Modal from '../../components/Modal';
 import Overlay from '../../components/Overlay';
 import { notesContainerCreators } from './reducer';
+import { useHistory, useLocation } from 'react-router';
+import routeConstants from '../../routeConstants';
 
 const Wrapper = styled.div`
   display: flex;
@@ -79,8 +81,24 @@ export function NotesContainer({
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showArchive, setShowArchive] = useState(false);
+  const history = useHistory();
+  const location = useLocation();
+  useEffect(() => {
+    const noteId = new URLSearchParams(location.search).get('note');
+    if (noteId) {
+      dispatchSetSelectedNote(notes[noteId]);
+    }
+  }, []);
   const toggleCard = () => {
     setIsExpanded(!isExpanded);
+  };
+  const handleOpenModal = (note) => {
+    history.push(`${routeConstants.Notes.route}?note=${note.id}`);
+    dispatchSetSelectedNote(note);
+  };
+  const handleCloseModal = () => {
+    history.push(routeConstants.Notes.route);
+    dispatchSetSelectedNote(null);
   };
   return (
     <Wrapper>
@@ -112,7 +130,7 @@ export function NotesContainer({
                       return (
                         <NoteCard
                           updateNote={dispatchUpdateNote}
-                          selectNote={dispatchSetSelectedNote}
+                          selectNote={handleOpenModal}
                           deleteNote={dispatchDeleteNote}
                           key={i}
                           note={note}
@@ -120,14 +138,13 @@ export function NotesContainer({
                       );
                     })}
                 </NotesWrapper>
-
                 <NotesWrapper>
                   {Object.values(notes)
                     .filter((note) => !note.isArchived && !note.isPinned)
                     .map((note, i) => (
                       <NoteCard
                         updateNote={dispatchUpdateNote}
-                        selectNote={dispatchSetSelectedNote}
+                        selectNote={handleOpenModal}
                         deleteNote={dispatchDeleteNote}
                         key={i}
                         note={note}
@@ -147,7 +164,7 @@ export function NotesContainer({
                     .map((note, i) => (
                       <NoteCard
                         updateNote={dispatchUpdateSearchedNote}
-                        selectNote={dispatchSetSelectedNote}
+                        selectNote={handleOpenModal}
                         deleteNote={dispatchDeleteSearchedNote}
                         key={i}
                         note={note}
@@ -178,7 +195,7 @@ export function NotesContainer({
                       return (
                         <NoteCard
                           updateNote={dispatchUpdateSearchedNote}
-                          selectNote={dispatchSetSelectedNote}
+                          selectNote={handleOpenModal}
                           deleteNote={dispatchDeleteSearchedNote}
                           key={i}
                           note={note}
@@ -204,17 +221,10 @@ export function NotesContainer({
                 ? dispatchDeleteSearchedNote
                 : dispatchDeleteNote
             }
-            close={() => {
-              dispatchSetSelectedNote(null);
-            }}
+            close={handleCloseModal}
             note={selectedNote}
           />
-          <Overlay
-            color={colors.backDrop}
-            close={() => {
-              dispatchSetSelectedNote(null);
-            }}
-          />
+          <Overlay color={colors.backDrop} close={handleCloseModal} />
         </>
       )}
     </Wrapper>

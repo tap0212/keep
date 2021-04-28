@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -21,6 +21,8 @@ import { appCreators } from '../app/reducer';
 import { archivesContainerCreators } from './reducer';
 import Modal from '../../components/Modal';
 import Overlay from '../../components/Overlay';
+import routeConstants from '../../routeConstants';
+import { useHistory, useLocation } from 'react-router';
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,7 +55,24 @@ export function ArchivesContainer({
   dispatchUpdateSearchedNote
 }) {
   const [showArchive, setShowArchive] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
 
+  useEffect(() => {
+    const noteId = new URLSearchParams(location.search).get('archiveNote');
+
+    if (noteId) {
+      dispatchSetSelectedNote(notes[noteId]);
+    }
+  }, []);
+  const handleOpenModal = (note) => {
+    history.push(`${routeConstants.Archives.route}?archiveNote=${note.id}`);
+    dispatchSetSelectedNote(note);
+  };
+  const handleCloseModal = () => {
+    history.push(routeConstants.Notes.route);
+    dispatchSetSelectedNote(null);
+  };
   return (
     <Wrapper>
       <NotesWrapper>
@@ -65,7 +84,7 @@ export function ArchivesContainer({
                 (note, i) =>
                   note.isArchived && (
                     <NoteCard
-                      selectNote={dispatchSetSelectedNote}
+                      selectNote={handleOpenModal}
                       updateNote={dispatchUpdateNote}
                       deleteNote={dispatchDeleteNote}
                       key={i}
@@ -84,7 +103,7 @@ export function ArchivesContainer({
                     .map((note, i) => (
                       <NoteCard
                         updateNote={dispatchUpdateSearchedNote}
-                        selectNote={dispatchSetSelectedNote}
+                        selectNote={handleOpenModal}
                         deleteNote={dispatchDeleteSearchedNote}
                         key={i}
                         note={note}
@@ -115,7 +134,7 @@ export function ArchivesContainer({
                       return (
                         <NoteCard
                           updateNote={dispatchUpdateSearchedNote}
-                          selectNote={dispatchSetSelectedNote}
+                          selectNote={handleOpenModal}
                           deleteNote={dispatchDeleteSearchedNote}
                           key={i}
                           note={note}
@@ -141,17 +160,10 @@ export function ArchivesContainer({
                 ? dispatchDeleteSearchedNote
                 : dispatchDeleteNote
             }
-            close={() => {
-              dispatchSetSelectedNote(null);
-            }}
+            close={handleCloseModal}
             note={selectedNote}
           />
-          <Overlay
-            color={colors.backDrop}
-            close={() => {
-              dispatchSetSelectedNote(null);
-            }}
-          />
+          <Overlay color={colors.backDrop} close={handleCloseModal} />
         </>
       )}
     </Wrapper>
