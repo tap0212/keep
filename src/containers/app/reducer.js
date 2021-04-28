@@ -5,11 +5,13 @@
  */
 import produce from 'immer';
 import { createActions } from 'reduxsauce';
+import { getPersistedData } from '../../utils';
+
 export const initialState = {
-  isSidebarActive: false,
-  notes: {},
-  searchResults: {},
-  isDarkModeActive: false
+  isSidebarActive: getPersistedData().isSidebarActive,
+  notes: getPersistedData().notes,
+  searchResults: getPersistedData().searchResults,
+  isDarkModeActive: getPersistedData().isDarkModeActive
 };
 
 export const { Types: appTypes, Creators: appCreators } = createActions({

@@ -18,7 +18,6 @@ export default function configureStore(initialState = {}) {
   }
 
   const enhancers = [applyMiddleware(...[])];
-
   const store = createStore(
     createReducer(),
     initialState,

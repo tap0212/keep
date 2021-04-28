@@ -34,3 +34,14 @@ export const trieSearch = (array, keys, searchQuery) => {
   ts.addAll(array);
   return ts.get(searchQuery);
 };
+
+export const persistData = (data) => {
+  localStorage.setItem('persistedStore', JSON.stringify(data));
+};
+export const getPersistedData = () => {
+  const data = localStorage.getItem('persistedStore');
+  if (!data) {
+    return {};
+  }
+  return JSON.parse(data);
+};

@@ -26,7 +26,11 @@ import {
   selectSearchQuery
 } from './selectors';
 import { appCreators } from './reducer';
-import { getCurrentRouteDetails, trieSearch } from '../../utils';
+import {
+  getCurrentRouteDetails,
+  trieSearch,
+  getPersistedData
+} from '../../utils';
 import { colors } from '../../themes';
 const Wrapper = styled.div`
   ${(props) => props.paddingLeft && `padding-left: ${props.paddingLeft}rem;`}
